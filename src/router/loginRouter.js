@@ -4,6 +4,6 @@ const LoginController = require('../Controllers/loginController.js');
 
 const loginController = new LoginController();
 
-router.post("/api/v1/login", loginController.login.bind(loginController));
+router.post("/api", loginController.login);
 
 module.exports = router;

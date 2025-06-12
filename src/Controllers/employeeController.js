@@ -4,6 +4,7 @@ const EmployeeRepo = require('../Repository/EmployeeRepo');
 const Employee = require('../../models/employee');
 
 class employeeController {
+    
     async create(req, res) {
         try {
             const errors = validationResult(req);

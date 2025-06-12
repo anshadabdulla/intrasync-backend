@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const UserRepo             = require('../Repository/UserRepo');
 const EmployeeRepo         = require('../Repository/EmployeeRepo');
+const Employee             = require('../../models/employee');
 
 class employeeController {
 
@@ -46,6 +47,24 @@ class employeeController {
             res.status(500).json({
                 status : false,
                 errors : [err.message || 'Internal Server Error'],
+            });
+        }
+    }
+
+    async getAllEmployee(req, res) {
+        try {
+
+            const employees = await Employee.findAll();
+
+            return res.status(200).json({
+                status : true,
+                data   : employees
+            });
+        } catch (err) {
+            console.error('Error in FindEmplpoyee:', err);
+            return res.status(500).json({
+                status : false,
+                errors : [err.message || 'Internal Server Error']
             });
         }
     }

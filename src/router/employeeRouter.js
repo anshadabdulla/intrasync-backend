@@ -5,5 +5,6 @@ const employeeController = new EmployeeController();
 const auth = require('../middleware/auth');
 
 router.post('/employee', auth, employeeController.create.bind(employeeController));
+router.get('/employee', auth, employeeController.getAllEmployee.bind(employeeController));
 
 module.exports = router;

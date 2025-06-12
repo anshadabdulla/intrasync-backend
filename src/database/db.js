@@ -1,30 +1,15 @@
-const { Sequelize } = require("sequelize");
+const { Sequelize } = require('sequelize');
+const config = require('../../config/config').development;
 
 const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: "postgres",
-    port: process.env.DB_PORT,
-    dialectOptions: {
-      useUTC: false,
-      dateStrings: true,
-      typeCast: (field, next) => {
-        if (field.type === "DATETIME" || field.type === "TIMESTAMP") {
-          return field.string();
-        }
-        return next();
-      }
-    },
-    pool: {
-      max: 20,
-    },
-    define: {
-      timestamps: false,
-    },
-  }
+    config.database,
+    config.username,
+    config.password,
+    {
+        host: config.host,
+        dialect: config.dialect,
+        logging: false,
+    }
 );
 
 module.exports = sequelize;

@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
 const UserRepo = require('../Repository/UserRepo');
 const EmployeeRepo = require('../Repository/EmployeeRepo');
-const Employee = require('../../models/employee');
+const Employees = require('../../models/employee');
 
 class employeeController {
     async create(req, res) {
@@ -51,7 +51,7 @@ class employeeController {
 
     async getAllEmployee(req, res) {
         try {
-            const employees = await Employee.findAll();
+            const employees = await Employees.findAll();
 
             return res.status(200).json({
                 status: true,
@@ -70,7 +70,7 @@ class employeeController {
         try {
             const { id } = req.params;
 
-            const employee = await Employee.findOne({ where: { id } });
+            const employee = await Employees.findOne({ where: { id } });
 
             if (!employee) {
                 return res.status(404).json({

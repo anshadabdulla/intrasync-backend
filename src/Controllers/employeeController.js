@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const UserRepo = require('../Repository/UserRepo');
 const EmployeeRepo = require('../Repository/EmployeeRepo');
 const Employees = require('../../models/employee');
+const User = require('../../models/user');
 
 class employeeController {
     async create(req, res) {
@@ -110,10 +111,42 @@ class employeeController {
 
             return res.status(200).json({
                 status: true,
-                msg: 'Employee updated successfully',
+                msg: 'Employee updated successfully'
             });
         } catch (err) {
             console.error('Error in update:', err);
+            return res.status(500).json({
+                status: false,
+                errors: [err.message || 'Internal Server Error']
+            });
+        }
+    }
+    async delete(req, res) {
+        try {
+            const { id } = req.params;
+
+            const employee = await Employees.findOne({ where: { id } });
+
+            if (!employee) {
+                return res.status(404).json({
+                    status: false,
+                    errors: ['Employee not found']
+                });
+            }
+            const userId = employee.user_id;
+
+            await employee.destroy();
+
+            if (userId) {
+                await User.destroy({ where: { id: userId } });
+            }
+
+            return res.status(200).json({
+                status: true,
+                msg: 'Employee deleted successfully'
+            });
+        } catch (err) {
+            console.error('Error in delete:', err);
             return res.status(500).json({
                 status: false,
                 errors: [err.message || 'Internal Server Error']

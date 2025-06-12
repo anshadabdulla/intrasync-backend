@@ -6,6 +6,7 @@ const auth = require('../middleware/auth');
 
 router.post('/employee', auth, employeeController.create);
 router.put('/update/:id', auth, employeeController.update);
+router.delete('/delete/:id', auth, employeeController.delete);
 router.get('/getAllEmployee', auth, employeeController.getAllEmployee);
 router.get('/getEmployeeById/:id', auth, employeeController.getEmployeeById);
 

@@ -4,7 +4,6 @@ const EmployeeRepo = require('../Repository/EmployeeRepo');
 const Employee = require('../../models/employee');
 
 class employeeController {
-    
     async create(req, res) {
         try {
             const errors = validationResult(req);
@@ -60,6 +59,32 @@ class employeeController {
             });
         } catch (err) {
             console.error('Error in FindEmplpoyee:', err);
+            return res.status(500).json({
+                status: false,
+                errors: [err.message || 'Internal Server Error']
+            });
+        }
+    }
+
+    async getEmployeeById(req, res) {
+        try {
+            const { id } = req.params;
+
+            const employee = await Employee.findOne({ where: { id } });
+
+            if (!employee) {
+                return res.status(404).json({
+                    status: false,
+                    errors: ['Employee not found']
+                });
+            }
+
+            return res.status(200).json({
+                status: true,
+                data: employee
+            });
+        } catch (err) {
+            console.error('Error in getEmployeeById:', err);
             return res.status(500).json({
                 status: false,
                 errors: [err.message || 'Internal Server Error']

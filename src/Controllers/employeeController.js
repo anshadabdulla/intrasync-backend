@@ -14,7 +14,7 @@ class employeeController {
                 });
             }
 
-            const { email, name, employee_no } = req.body;
+            const { email, name, mname, lname, employee_no } = req.body;
 
             const existingUser = await UserRepo.getByEmail(email);
 
@@ -27,7 +27,7 @@ class employeeController {
 
             const user = await UserRepo.createUserAndEmployee({ email, employee_no });
 
-            const employee = await EmployeeRepo.create(user, { email, name, employee_no });
+            const employee = await EmployeeRepo.create(user, { email, name, mname, lname, employee_no });
 
             if (employee) {
                 return res.status(201).json({

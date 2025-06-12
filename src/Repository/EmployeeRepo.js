@@ -17,6 +17,19 @@ class EmployeeRepo {
             throw error;
         }
     }
+
+    async update(id, updateData) {
+        try {
+            const employee = await Employee.findOne({ where: { id } });
+            if (!employee) {
+                return null;
+            }
+            await employee.update(updateData);
+            return employee;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = new EmployeeRepo();

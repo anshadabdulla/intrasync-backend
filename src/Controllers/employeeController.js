@@ -91,6 +91,35 @@ class employeeController {
             });
         }
     }
+
+    async update(req, res) {
+        try {
+            const { id } = req.params;
+            const { email, name, mname, lname, employee_no } = req.body;
+
+            const updateData = { email, name, mname, lname, employee_no };
+
+            const employee = await EmployeeRepo.update(id, updateData);
+
+            if (!employee) {
+                return res.status(404).json({
+                    status: false,
+                    errors: ['Employee not found']
+                });
+            }
+
+            return res.status(200).json({
+                status: true,
+                msg: 'Employee updated successfully',
+            });
+        } catch (err) {
+            console.error('Error in update:', err);
+            return res.status(500).json({
+                status: false,
+                errors: [err.message || 'Internal Server Error']
+            });
+        }
+    }
 }
 
 module.exports = employeeController;

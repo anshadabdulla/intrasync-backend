@@ -2,6 +2,7 @@ const UserRepo = require('../Repository/UserRepo');
 const jwt = require('jsonwebtoken');
 
 class loginController {
+    
     async login(req, res) {
         try {
             const { email, password } = req.body;

@@ -8,7 +8,17 @@ const sequelize = new Sequelize(
     {
         host    : config.host,
         dialect : config.dialect,
-        logging : false,
+        logging : console.log,
+        define  : {
+            timestamps : true,
+            paranoid   : true,
+        },
+        pool: {
+            max     : 5,
+            min     : 0,
+            acquire : 30000,
+            idle    : 10000,
+        },
     }
 );
 

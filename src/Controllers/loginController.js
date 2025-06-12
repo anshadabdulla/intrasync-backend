@@ -24,7 +24,11 @@ class loginController {
             }
 
             const token = jwt.sign(
-                { userId: user.id, email: user.email, user_type: user.user_type },
+                { 
+                  userId    : user.id, 
+                  email     : user.email, 
+                  user_type : user.user_type 
+                },
                 process.env.JWT_SECRET,
                 { expiresIn : '1h' }
             );

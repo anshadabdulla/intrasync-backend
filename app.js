@@ -10,11 +10,12 @@ app.use(express.json());
 app.use('/api', loginRouter);
 app.use('/api', employeeRouter);
 
-sequelize.sync()
+sequelize
+    .sync()
     .then(() => {
         console.log('Database synced');
     })
-    .catch(err => {
+    .catch((err) => {
         console.error('Error syncing database:', err);
     });
 

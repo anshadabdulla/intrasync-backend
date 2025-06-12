@@ -1,17 +1,13 @@
-const { Op } = require("sequelize");
-const User = require("../../models/user");
+const { Op } = require('sequelize');
+const User = require('../../models/user');
 const bcrypt = require('bcryptjs');
 
 class UserRepo {
-
     async getByEmail(email) {
         try {
             return await User.findOne({
                 where: {
-                    [Op.or]: [
-                        { username : email },
-                        { email    : email }
-                    ]
+                    [Op.or]: [{ username: email }, { email: email }]
                 }
             });
         } catch (error) {
@@ -38,11 +34,11 @@ class UserRepo {
     async createUserAndEmployee(employeeData) {
         try {
             const user = await User.create({
-                username  : employeeData.employee_no,
-                password  : 'login@123',
-                user_type : 'employee',
-                email     : employeeData.email,
-                status    : 1,
+                username: employeeData.employee_no,
+                password: 'login@123',
+                user_type: 'employee',
+                email: employeeData.email,
+                status: 1
             });
             return user;
         } catch (error) {

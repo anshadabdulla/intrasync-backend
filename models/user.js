@@ -9,40 +9,40 @@ const User = sequelize.define(
             allowNull: false,
             autoIncrement: true,
             primaryKey: true,
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER
         },
         username: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
+            unique: true
         },
         password: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: false
         },
         user_type: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: false
         },
         email: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
+            unique: true
         },
         status: {
             type: DataTypes.INTEGER,
             allowNull: true,
-            defaultValue: 1,
+            defaultValue: 1
         }
     },
     {
         hooks: {
             beforeCreate: async (user) => {
                 user.password = await bcrypt.hash(user.password, 10);
-            },
+            }
         },
         paranoid: true,
-        timestamps: true,
+        timestamps: true
     }
 );
 

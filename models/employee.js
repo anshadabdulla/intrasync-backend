@@ -9,33 +9,33 @@ const Employee = sequelize.define(
             type: DataTypes.INTEGER,
             allowNull: false,
             autoIncrement: true,
-            primaryKey: true,
+            primaryKey: true
         },
         user_id: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: false
         },
         employee_no: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
+            unique: true
         },
         name: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: false
         },
         email: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: false
         },
         status: {
             type: DataTypes.INTEGER,
-            allowNull: true,
+            allowNull: true
         }
     },
     {
         paranoid: true,
-        timestamps: true,
+        timestamps: true
     }
 );
 

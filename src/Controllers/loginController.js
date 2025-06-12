@@ -1,5 +1,5 @@
 const UserRepo = require('../Repository/UserRepo');
-const jwt = require('jsonwebtoken');
+const jwt      = require('jsonwebtoken');
 
 class loginController {
 

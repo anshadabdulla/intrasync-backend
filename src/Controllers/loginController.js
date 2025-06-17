@@ -95,10 +95,17 @@ class loginController {
     }
     async resetPassword(req, res) {
         try {
-            const userId = req.userId;
+            const userId = req.user.userId;
             const { currentPassword, newPassword } = req.body;
-
+            console.log('Decoded user:', req.user);
             const user = await User.findByPk(userId);
+
+            if (!user) {
+                return res.status(404).json({
+                    status: false,
+                    data: 'User not found'
+                });
+            }
 
             const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
 

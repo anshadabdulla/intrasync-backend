@@ -97,7 +97,6 @@ class loginController {
         try {
             const userId = req.user.userId;
             const { currentPassword, newPassword } = req.body;
-            console.log('Decoded user:', req.user);
             const user = await User.findByPk(userId);
 
             if (!user) {

@@ -101,8 +101,9 @@ class employeeController {
             const updateData = { email, name, mname, lname, employee_no };
 
             const employee = await EmployeeRepo.update(id, updateData);
+            const user = await UserRepo.update(id, { email });
 
-            if (!employee) {
+            if (!employee && !user) {
                 return res.status(404).json({
                     status: false,
                     errors: ['Employee not found']

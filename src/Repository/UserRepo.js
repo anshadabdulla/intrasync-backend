@@ -45,6 +45,19 @@ class UserRepo {
             throw error;
         }
     }
+
+    async update(id, email) {
+        try {
+            const user = await User.findOne({ where: { id } });
+            if (!user) {
+                return null;
+            }
+            await user.update(email);
+            return user;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = new UserRepo();

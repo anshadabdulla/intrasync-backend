@@ -1,12 +1,12 @@
 const UserRepo = require('../Repository/UserRepo');
 const jwt = require('jsonwebtoken');
-const emailRepo = require('../Repository/EmailRepo');
+const EmailRepo = require('../Repository/EmailRepo');
 const User = require('../../models/user');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const Employee = require('../../models/employee');
 
-const EmailRepo = new emailRepo();
+const emailRepo = new EmailRepo();
 
 class loginController {
     async login(req, res) {
@@ -79,7 +79,7 @@ class loginController {
 
             const emailData = { salutation, password, email };
             let subject = 'Forgot Password Send Successfully';
-            EmailRepo.sendEmail('forgot-email', subject, emailData);
+            await emailRepo.sendEmail('forgot-email', subject, emailData);
 
             res.status(200).json({
                 status: true,

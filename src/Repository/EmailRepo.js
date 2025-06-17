@@ -38,18 +38,14 @@ class EmailRepo {
         }
     }
 
-    loadTemplate(templateName) {
-        return new Promise((resolve, reject) => {
-            const filePath = `templates/${templateName}.handlebars`;
-            fs.readFile(filePath, 'utf8', (err, data) => {
-                if (err) {
-                    console.error(err);
-                    reject(new Error('Failed to load email template'));
-                } else {
-                    resolve(data);
-                }
-            });
-        });
+    async loadTemplate(templateName) {
+        const filePath = `templates/${templateName}.handlebars`;
+        try {
+            return await fs.readFile(filePath, 'utf8');
+        } catch (err) {
+            console.error(err);
+            throw new Error('Failed to load email template');
+        }
     }
 }
 

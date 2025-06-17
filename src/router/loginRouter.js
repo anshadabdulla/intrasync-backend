@@ -5,6 +5,7 @@ const loginController = new LoginController();
 
 router.post('/login', loginController.login);
 router.post('/forgotPassword', loginController.forgotPassword);
+router.post('/resetPassword', loginController.resetPassword);
 
 
 module.exports = router;

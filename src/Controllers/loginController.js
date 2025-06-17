@@ -1,5 +1,11 @@
 const UserRepo = require('../Repository/UserRepo');
 const jwt = require('jsonwebtoken');
+const emailRepo = require('../Repository/EmailRepo');
+const User = require('../../models/user');
+const crypto = require('crypto');
+const bcrypt = require('bcrypt');
+
+const EmailRepo = new emailRepo();
 
 class loginController {
     async login(req, res) {
@@ -63,9 +69,7 @@ class loginController {
             user.reset_flag = true;
             await user.save();
             let userInfo;
-            if (user.user_type == 'candidate') {
-                userInfo = await Candidates.findOne({ where: { user_id: user.id } });
-            } else if (user.user_type == 'employee') {
+            if (user.user_type == 'employee') {
                 userInfo = await Employees.findOne({ where: { user_id: user.id } });
             } else {
                 userInfo = 'Admin';

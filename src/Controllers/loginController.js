@@ -4,6 +4,7 @@ const emailRepo = require('../Repository/EmailRepo');
 const User = require('../../models/user');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
+const Employee = require('../../models/employee');
 
 const EmailRepo = new emailRepo();
 
@@ -70,7 +71,7 @@ class loginController {
             await user.save();
             let userInfo;
             if (user.user_type == 'employee') {
-                userInfo = await Employees.findOne({ where: { user_id: user.id } });
+                userInfo = await Employee.findOne({ where: { user_id: user.id } });
             } else {
                 userInfo = 'Admin';
             }

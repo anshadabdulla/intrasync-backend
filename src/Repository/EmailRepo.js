@@ -12,11 +12,6 @@ const transporter = nodemailer.createTransport({
 });
 
 class EmailRepo {
-    async loadTemplate(templateName) {
-        const filePath = `${__dirname}/templates/${templateName}.html`;
-        return await fs.readFile(filePath, 'utf8');
-    }
-
     async sendEmail(templateName, subject, data, needCC = true, cc = []) {
         try {
             const template = await this.loadTemplate(templateName);
@@ -41,6 +36,20 @@ class EmailRepo {
             console.log('Error sending email:', err);
             return false;
         }
+    }
+
+    loadTemplate(templateName) {
+        return new Promise((resolve, reject) => {
+            const filePath = `templates/${templateName}.handlebars`;
+            fs.readFile(filePath, 'utf8', (err, data) => {
+                if (err) {
+                    console.error(err);
+                    reject(new Error('Failed to load email template'));
+                } else {
+                    resolve(data);
+                }
+            });
+        });
     }
 }
 

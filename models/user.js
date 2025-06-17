@@ -33,6 +33,15 @@ const User = sequelize.define(
             type: DataTypes.INTEGER,
             allowNull: true,
             defaultValue: 1
+        },
+        reset_flag: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+            defaultValue: false
+        },
+        last_login: {
+            type: DataTypes.DATE,
+            allowNull: true
         }
     },
     {

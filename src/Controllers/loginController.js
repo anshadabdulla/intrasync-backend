@@ -77,7 +77,7 @@ class loginController {
             let salutation = userInfo == 'Admin' ? 'Hi Admin, ' : 'Dear ' + userInfo.name;
 
             const emailData = { salutation, password, email };
-            let subject = 'Account Created Successfully';
+            let subject = 'Forgot Password Send Successfully';
             EmailRepo.sendEmail('forgot-email', subject, emailData);
 
             res.status(200).json({

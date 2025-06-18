@@ -145,6 +145,21 @@ class loginController {
             });
         }
     }
+    async logout(req, res) {
+        try {
+            res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'strict' });
+            res.status(200).json({
+                status: true,
+                message: 'Logged out successfully'
+            });
+        } catch (error) {
+            console.error('Error during logout:', error);
+            res.status(500).json({
+                status: false,
+                data: 'Internal Server Error'
+            });
+        }
+    }
 }
 
 module.exports = loginController;

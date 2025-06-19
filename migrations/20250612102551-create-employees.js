@@ -38,6 +38,10 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: true
             },
+            photo: {
+                type: Sequelize.TEXT('long'),
+                allowNull: true
+            },
             status: {
                 type: Sequelize.INTEGER,
                 allowNull: true,

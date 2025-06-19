@@ -30,34 +30,6 @@ class UserRepo {
             return { error: error.message || 'Internal Server Error' };
         }
     }
-
-    async createUserAndEmployee(employeeData) {
-        try {
-            const user = await User.create({
-                username: employeeData.employee_no,
-                password: 'login@123',
-                user_type: 'employee',
-                email: employeeData.email,
-                status: 1
-            });
-            return user;
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    async update(id, email) {
-        try {
-            const user = await User.findOne({ where: { id } });
-            if (!user) {
-                return null;
-            }
-            await user.update(email);
-            return user;
-        } catch (error) {
-            throw error;
-        }
-    }
 }
 
 module.exports = new UserRepo();

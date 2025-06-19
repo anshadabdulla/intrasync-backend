@@ -15,8 +15,7 @@ class employeeController {
                 });
             }
 
-            const { email, name, mname, lname, employee_no } = req.body;
-
+            const { email } = req.body;
             const existingUser = await UserRepo.getByEmail(email);
 
             if (existingUser) {
@@ -26,9 +25,7 @@ class employeeController {
                 });
             }
 
-            const user = await UserRepo.createUserAndEmployee({ email, employee_no });
-
-            const employee = await EmployeeRepo.create(user, { email, name, mname, lname, employee_no });
+            const employee = await EmployeeRepo.create(req.body);
 
             if (employee) {
                 return res.status(201).json({
@@ -95,15 +92,27 @@ class employeeController {
 
     async update(req, res) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({
+                    status: false,
+                    errors: errors.array().map((error) => error.msg)
+                });
+            }
+
             const { id } = req.params;
-            const { email, name, mname, lname, employee_no } = req.body;
+            const { email } = req.body;
 
-            const updateData = { email, name, mname, lname, employee_no };
+            const existingUser = await UserRepo.getByEmail(email);
+            if (existingUser && existingUser.id != id) {
+                return res.status(400).json({
+                    status: false,
+                    errors: ['Email already exists']
+                });
+            }
 
-            const employee = await EmployeeRepo.update(id, updateData);
-            const user = await UserRepo.update(id, { email });
-
-            if (!employee && !user) {
+            const employee = await EmployeeRepo.update(id, req.body);
+            if (!employee) {
                 return res.status(404).json({
                     status: false,
                     errors: ['Employee not found']
@@ -116,12 +125,13 @@ class employeeController {
             });
         } catch (err) {
             console.error('Error in update:', err);
-            return res.status(500).json({
+            res.status(500).json({
                 status: false,
                 errors: [err.message || 'Internal Server Error']
             });
         }
     }
+
     async delete(req, res) {
         try {
             const { id } = req.params;

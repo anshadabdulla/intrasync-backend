@@ -26,11 +26,11 @@ const Employee = sequelize.define(
         },
         mname: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         lname: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         email: {
             type: DataTypes.STRING,

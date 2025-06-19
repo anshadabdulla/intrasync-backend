@@ -22,9 +22,21 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
+            mname: {
+                type: Sequelize.STRING,
+                allowNull: true
+        },
+            lname: {
+                type: Sequelize.STRING,
+                allowNull: true
+            },
             email: {
                 type: Sequelize.STRING,
                 allowNull: false,
+            },
+            blood_group: {
+                type: Sequelize.STRING,
+                allowNull: true
             },
             status: {
                 type: Sequelize.INTEGER,

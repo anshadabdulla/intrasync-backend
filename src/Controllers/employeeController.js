@@ -47,6 +47,48 @@ class employeeController {
         }
     }
 
+    async update(req, res) {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({
+                    status: false,
+                    errors: errors.array().map((error) => error.msg)
+                });
+            }
+
+            const { id } = req.params;
+            const { email } = req.body;
+
+            const existingUser = await UserRepo.getByEmail(email);
+            if (existingUser && existingUser.id != id) {
+                return res.status(400).json({
+                    status: false,
+                    errors: ['Email already exists']
+                });
+            }
+
+            const employee = await EmployeeRepo.update(id, req.body);
+            if (!employee) {
+                return res.status(404).json({
+                    status: false,
+                    errors: ['Employee not found']
+                });
+            }
+
+            return res.status(200).json({
+                status: true,
+                msg: 'Employee updated successfully'
+            });
+        } catch (err) {
+            console.error('Error in update:', err);
+            res.status(500).json({
+                status: false,
+                errors: [err.message || 'Internal Server Error']
+            });
+        }
+    }
+
     async getAllEmployee(req, res) {
         try {
             const employees = await Employees.findAll();
@@ -84,48 +126,6 @@ class employeeController {
         } catch (err) {
             console.error('Error in getEmployeeById:', err);
             return res.status(500).json({
-                status: false,
-                errors: [err.message || 'Internal Server Error']
-            });
-        }
-    }
-
-    async update(req, res) {
-        try {
-            const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-                return res.status(400).json({
-                    status: false,
-                    errors: errors.array().map((error) => error.msg)
-                });
-            }
-
-            const { id } = req.params;
-            const { email } = req.body;
-
-            const existingUser = await UserRepo.getByEmail(email);
-            if (existingUser && existingUser.id != id) {
-                return res.status(400).json({
-                    status: false,
-                    errors: ['Email already exists']
-                });
-            }
-
-            const employee = await EmployeeRepo.update(id, req.body);
-            if (!employee) {
-                return res.status(404).json({
-                    status: false,
-                    errors: ['Employee not found']
-                });
-            }
-
-            return res.status(200).json({
-                status: true,
-                msg: 'Employee updated successfully'
-            });
-        } catch (err) {
-            console.error('Error in update:', err);
-            res.status(500).json({
                 status: false,
                 errors: [err.message || 'Internal Server Error']
             });

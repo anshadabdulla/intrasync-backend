@@ -27,6 +27,15 @@ module.exports = {
                 allowNull: false,
                 unique: true,
             },
+            reset_flag: {
+                type: Sequelize.BOOLEAN,
+                allowNull: true,
+                defaultValue: false
+            },
+            last_login: {
+                type: Sequelize.DATE,
+                allowNull: true
+            },
             status: {
                 type: Sequelize.INTEGER,
                 allowNull: true,

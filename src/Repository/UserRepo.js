@@ -7,7 +7,7 @@ class UserRepo {
         try {
             return await User.findOne({
                 where: {
-                    [Op.or]: [{ username: email }, { email: email }]
+                    [Op.or]: [{ username: { [Op.iLike]: email } }, { email: { [Op.iLike]: email } }]
                 }
             });
         } catch (error) {

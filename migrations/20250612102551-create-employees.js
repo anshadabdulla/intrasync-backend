@@ -25,7 +25,7 @@ module.exports = {
             mname: {
                 type: Sequelize.STRING,
                 allowNull: true
-        },
+            },
             lname: {
                 type: Sequelize.STRING,
                 allowNull: true

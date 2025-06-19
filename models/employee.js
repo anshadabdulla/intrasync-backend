@@ -39,6 +39,10 @@ const Employee = sequelize.define(
         status: {
             type: DataTypes.INTEGER,
             allowNull: true
+        },
+        blood_group: {
+            type: DataTypes.STRING,
+            allowNull: true
         }
     },
     {

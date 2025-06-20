@@ -3,15 +3,15 @@ const EmployeeDocuments = require('./employeeDocuments');
 const Employees = require('./employees');
 const Users = require('./users');
 
-Employee.belongsTo(Users, { foreignKey: 'user_id' });
+Employees.belongsTo(Users, { foreignKey: 'user_id' });
 
-Employee.hasMany(EmployeeDocuments, {
+Employees.hasMany(EmployeeDocuments, {
     foreignKey: 'employee_id',
     as: 'documents',
     onDelete: 'CASCADE'
 });
 
-EmployeeDocument.belongsTo(Employees, {
+EmployeeDocuments.belongsTo(Employees, {
     foreignKey: 'employee_id'
 });
 

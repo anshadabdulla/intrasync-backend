@@ -53,9 +53,6 @@ module.exports = {
                 allowNull: true,
                 type: Sequelize.DATE,
             },
-        }, {
-            timestamps: true,
-            paranoid: true
         });
     },
 

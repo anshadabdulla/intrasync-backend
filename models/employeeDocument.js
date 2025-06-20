@@ -1,8 +1,9 @@
+'use strict';
 const { DataTypes } = require('sequelize');
 const sequelize = require('../src/database/db');
 
-const Employee = sequelize.define(
-    'Employee',
+const EmployeeDocument = sequelize.define(
+    'EmployeeDocument',
     {
         id: {
             type: DataTypes.INTEGER,
@@ -10,32 +11,19 @@ const Employee = sequelize.define(
             autoIncrement: true,
             primaryKey: true
         },
-        user_id: {
+        employee_id: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        employee_no: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        mname: {
+        type: {
             type: DataTypes.STRING,
             allowNull: true
         },
-        lname: {
+        file: {
             type: DataTypes.STRING,
             allowNull: true
         },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        blood_group: {
+        text: {
             type: DataTypes.STRING,
             allowNull: true
         },
@@ -45,9 +33,9 @@ const Employee = sequelize.define(
         }
     },
     {
-        paranoid: true,
-        timestamps: true
+        timestamps: true,
+        paranoid: true
     }
 );
 
-module.exports = Employee;
+module.exports = EmployeeDocument;

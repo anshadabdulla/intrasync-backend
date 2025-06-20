@@ -2,62 +2,49 @@
 
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable('Employees', {
+        await queryInterface.createTable('EmployeeDocument', {
             id: {
+                type: Sequelize.INTEGER,
                 allowNull: false,
                 autoIncrement: true,
-                primaryKey: true,
+                primaryKey: true
+            },
+            employee_id: {
                 type: Sequelize.INTEGER,
+                allowNull: false
             },
-            user_id: {
-                allowNull: false,
-                type: Sequelize.INTEGER,
-            },
-            employee_no: {
-                allowNull: false,
-                type: Sequelize.STRING,
-                unique: true,
-            },
-            name: {
-                type: Sequelize.STRING,
-                allowNull: false,
-            },
-            mname: {
+            type: {
                 type: Sequelize.STRING,
                 allowNull: true
             },
-            lname: {
+            file: {
                 type: Sequelize.STRING,
                 allowNull: true
             },
-            email: {
-                type: Sequelize.STRING,
-                allowNull: false,
-            },
-            blood_group: {
+            text: {
                 type: Sequelize.STRING,
                 allowNull: true
             },
             status: {
                 type: Sequelize.INTEGER,
-                allowNull: true,
+                allowNull: true
             },
             createdAt: {
-                allowNull: false,
                 type: Sequelize.DATE,
+                allowNull: false
             },
             updatedAt: {
-                allowNull: false,
                 type: Sequelize.DATE,
+                allowNull: false
             },
             deletedAt: {
-                allowNull: true,
                 type: Sequelize.DATE,
+                allowNull: true
             },
         });
     },
 
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable('Employees');
+        await queryInterface.dropTable('EmployeeDocument');
     },
 };

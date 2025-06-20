@@ -10,8 +10,8 @@ router.get('/employee/:id', auth, employeeController.getEmployeeById);
 router.get('/employee', auth, employeeController.getAllEmployee);
 router.delete('/employee/:id', auth, employeeController.deleteEmployee);
 
-router.post('/employee-documents', auth, employeeController.createEmployeeDocument);
-router.put('/employee-documents/:id', auth, employeeController.updateEmployeeDocument);
-router.delete('/employee-documents/:id', auth, employeeController.deleteEmployeeDocument);
+router.post('/employee-document', auth, employeeController.createEmployeeDocument);
+router.put('/employee-document/:id', auth, employeeController.updateEmployeeDocument);
+router.delete('/employee-document/:id', auth, employeeController.deleteEmployeeDocument);
 
 module.exports = router;

@@ -4,7 +4,7 @@ const EmployeeRepo = require('../Repository/EmployeeRepo');
 const { Employees, EmployeeDocuments, Users } = require('../../models');
 
 class employeeController {
-    async create(req, res) {
+    async createEmployee(req, res) {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
@@ -46,7 +46,7 @@ class employeeController {
         }
     }
 
-    async update(req, res) {
+    async updateEmployee(req, res) {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
@@ -149,7 +149,7 @@ class employeeController {
         }
     }
 
-    async delete(req, res) {
+    async deleteEmployee(req, res) {
         try {
             const { id } = req.params;
 

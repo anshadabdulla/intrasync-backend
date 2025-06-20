@@ -1,8 +1,9 @@
 const { validationResult } = require('express-validator');
 const UserRepo = require('../Repository/UserRepo');
 const EmployeeRepo = require('../Repository/EmployeeRepo');
-const Employees = require('../../models/employee');
+const Employee = require('../../models/employee');
 const User = require('../../models/user');
+const EmployeeDocument = require('../../models/employeeDocument');
 
 class employeeController {
     async create(req, res) {
@@ -91,7 +92,7 @@ class employeeController {
 
     async getAllEmployee(req, res) {
         try {
-            const employees = await Employees.findAll();
+            const employees = await Employee.findAll();
 
             return res.status(200).json({
                 status: true,
@@ -110,7 +111,16 @@ class employeeController {
         try {
             const { id } = req.params;
 
-            const employee = await Employees.findOne({ where: { id } });
+            const employee = await Employee.findOne({
+                where: { id },
+                include: [
+                    {
+                        model: EmployeeDocument,
+                        as: 'documents',
+                        attributes: ['id', 'employee_id', 'type', 'file', 'text', 'status']
+                    }
+                ]
+            });
 
             if (!employee) {
                 return res.status(404).json({
@@ -136,7 +146,7 @@ class employeeController {
         try {
             const { id } = req.params;
 
-            const employee = await Employees.findOne({ where: { id } });
+            const employee = await Employee.findOne({ where: { id } });
 
             if (!employee) {
                 return res.status(404).json({

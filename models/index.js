@@ -6,9 +6,14 @@ const EmployeeDocument = require('./employeeDocument');
 
 Employee.belongsTo(User, { foreignKey: 'user_id' });
 
-EmployeeDocument.belongsTo(Employee, {
+Employee.hasMany(EmployeeDocument, {
     foreignKey: 'employee_id',
+    as: 'documents',
     onDelete: 'CASCADE'
+});
+
+EmployeeDocument.belongsTo(Employee, {
+    foreignKey: 'employee_id'
 });
 
 const db = {

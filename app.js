@@ -6,6 +6,7 @@ const port = process.env.PORT || 3000;
 const sequelize = require('./src/database/db');
 const loginRouter = require('./src/router/loginRouter');
 const employeeRouter = require('./src/router/employeeRouter');
+require('./models');
 
 app.use(cors());
 app.use(express.json({ limit: '5mb' }));

@@ -163,7 +163,7 @@ class employeeController {
             }
             const userId = employee.user_id;
 
-            await Employees.destroy();
+            await employee.destroy();
 
             if (userId) {
                 await Users.destroy({ where: { id: userId } });

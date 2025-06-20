@@ -29,7 +29,7 @@ class employeeController {
             const employee = await EmployeeRepo.create(req.body);
 
             if (employee) {
-                return res.status(201).json({
+                return res.status(200).json({
                     status: true,
                     msg: 'Employee created successfully'
                 });
@@ -92,7 +92,16 @@ class employeeController {
 
     async getAllEmployee(req, res) {
         try {
-            const employees = await Employee.findAll();
+            const employees = await Employee.findAll({
+                include: [
+                    {
+                        model: EmployeeDocument,
+                        as: 'documents',
+                        attributes: ['id', 'employee_id', 'type', 'file', 'text', 'status']
+                    }
+                ],
+                order: [['createdAt', 'DESC']]
+            });
 
             return res.status(200).json({
                 status: true,
@@ -169,6 +178,39 @@ class employeeController {
         } catch (err) {
             console.error('Error in delete:', err);
             return res.status(500).json({
+                status: false,
+                errors: [err.message || 'Internal Server Error']
+            });
+        }
+    }
+
+    async createEmployeeDocument(req, res) {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({
+                    status: false,
+                    errors: errors.array().map((error) => error.msg)
+                });
+            }
+
+            const newDocument = await EmployeeRepo.createDocument(req.body);
+
+            if (newDocument) {
+                return res.status(200).json({
+                    status: true,
+                    msg: 'Employee document created successfully',
+                    data: newDocument
+                });
+            } else {
+                return res.status(500).json({
+                    status: false,
+                    errors: ['Something went wrong']
+                });
+            }
+        } catch (err) {
+            console.error('Error in create:', err);
+            res.status(500).json({
                 status: false,
                 errors: [err.message || 'Internal Server Error']
             });

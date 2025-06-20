@@ -1,4 +1,5 @@
 const Employee = require('../../models/employee');
+const EmployeeDocument = require('../../models/employeeDocument');
 const User = require('../../models/user');
 
 class EmployeeRepo {
@@ -53,6 +54,22 @@ class EmployeeRepo {
             });
 
             return employee;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async createDocument(documentData) {
+        try {
+            const created = await EmployeeDocument.create({
+                employee_id: documentData.employee_id,
+                type: documentData.type || null,
+                file: documentData.file || null,
+                text: documentData.text || null,
+                status: documentData.status || 1
+            });
+
+            return created;
         } catch (error) {
             throw error;
         }

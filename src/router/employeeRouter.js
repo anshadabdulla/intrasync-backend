@@ -6,9 +6,9 @@ const auth = require('../middleware/auth');
 
 router.post('/employee', auth, employeeController.createEmployee);
 router.put('/employee/:id', auth, employeeController.updateEmployee);
-router.delete('/employee/:id', auth, employeeController.deleteEmployee);
 router.get('/employee/:id', auth, employeeController.getEmployeeById);
 router.get('/employee', auth, employeeController.getAllEmployee);
+router.delete('/employee/:id', auth, employeeController.deleteEmployee);
 
 router.post('/employee-documents', auth, employeeController.createEmployeeDocument);
 router.put('/employee-documents/:id', auth, employeeController.updateEmployeeDocument);

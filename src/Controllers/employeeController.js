@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
 const UserRepo = require('../Repository/UserRepo');
 const EmployeeRepo = require('../Repository/EmployeeRepo');
-const { Employees, EmployeeDocuments } = require('../../models');
+const { Employees, EmployeeDocuments, Users } = require('../../models');
 
 class employeeController {
     async create(req, res) {
@@ -166,7 +166,7 @@ class employeeController {
             await employee.destroy();
 
             if (userId) {
-                await User.destroy({ where: { id: userId } });
+                await Users.destroy({ where: { id: userId } });
             }
 
             return res.status(200).json({

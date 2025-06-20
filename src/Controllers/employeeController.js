@@ -228,6 +228,7 @@ class employeeController {
             const { id } = req.params;
 
             const updateDocument = await EmployeeRepo.updateDocument(id, req.body);
+
             if (!updateDocument) {
                 return res.status(404).json({
                     status: false,

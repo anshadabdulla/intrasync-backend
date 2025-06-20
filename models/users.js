@@ -2,8 +2,8 @@ const { DataTypes } = require('sequelize');
 const bcrypt = require('bcryptjs');
 const sequelize = require('../src/database/db');
 
-const User = sequelize.define(
-    'User',
+const Users = sequelize.define(
+    'Users',
     {
         id: {
             allowNull: false,
@@ -55,4 +55,4 @@ const User = sequelize.define(
     }
 );
 
-module.exports = User;
+module.exports = Users;

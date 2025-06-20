@@ -1,11 +1,11 @@
 const { Op } = require('sequelize');
-const User = require('../../models/user');
 const bcrypt = require('bcryptjs');
+const { Users } = require('../../models');
 
 class UserRepo {
     async getByEmail(email) {
         try {
-            return await User.findOne({
+            return await Users.findOne({
                 where: {
                     [Op.or]: [{ username: { [Op.iLike]: email } }, { email: { [Op.iLike]: email } }]
                 }

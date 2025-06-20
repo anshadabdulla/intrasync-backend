@@ -9,6 +9,7 @@ router.put('/update/:id', auth, employeeController.update);
 router.delete('/delete/:id', auth, employeeController.delete);
 router.get('/getAllEmployee', auth, employeeController.getAllEmployee);
 router.get('/getEmployeeById/:id', auth, employeeController.getEmployeeById);
-router.post('/employee-documents', auth, employeeController.createEmployeeDocument);
+router.post('/employee-documents-create', auth, employeeController.createEmployeeDocument);
+router.put('/employee-documents-update/:id', auth, employeeController.updateEmployeeDocument);
 
 module.exports = router;

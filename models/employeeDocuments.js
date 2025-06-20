@@ -2,8 +2,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../src/database/db');
 
-const EmployeeDocument = sequelize.define(
-    'EmployeeDocument',
+const EmployeeDocuments = sequelize.define(
+    'EmployeeDocuments',
     {
         id: {
             type: DataTypes.INTEGER,
@@ -38,4 +38,4 @@ const EmployeeDocument = sequelize.define(
     }
 );
 
-module.exports = EmployeeDocument;
+module.exports = EmployeeDocuments;

@@ -1,26 +1,25 @@
 const sequelize = require('../src/database/db');
+const EmployeeDocuments = require('./employeeDocuments');
+const Employees = require('./employees');
+const Users = require('./users');
 
-const User = require('./user');
-const Employee = require('./employee');
-const EmployeeDocument = require('./employeeDocument');
+Employee.belongsTo(Users, { foreignKey: 'user_id' });
 
-Employee.belongsTo(User, { foreignKey: 'user_id' });
-
-Employee.hasMany(EmployeeDocument, {
+Employee.hasMany(EmployeeDocuments, {
     foreignKey: 'employee_id',
     as: 'documents',
     onDelete: 'CASCADE'
 });
 
-EmployeeDocument.belongsTo(Employee, {
+EmployeeDocument.belongsTo(Employees, {
     foreignKey: 'employee_id'
 });
 
 const db = {
     sequelize,
-    User,
-    Employee,
-    EmployeeDocument
+    Users,
+    Employees,
+    EmployeeDocuments
 };
 
 module.exports = db;

@@ -1,10 +1,9 @@
 const UserRepo = require('../Repository/UserRepo');
 const jwt = require('jsonwebtoken');
 const EmailRepo = require('../Repository/EmailRepo');
-const User = require('../../models/user');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
-const Employee = require('../../models/employee');
+const { Users, Employees } = require('../../models');
 
 const emailRepo = new EmailRepo();
 
@@ -56,7 +55,7 @@ class loginController {
         try {
             const { email } = req.body;
 
-            const user = await User.findOne({ where: { email, status: 1 } });
+            const user = await Users.findOne({ where: { email, status: 1 } });
 
             if (!user) {
                 return res.status(404).json({
@@ -71,7 +70,7 @@ class loginController {
             await user.save();
             let userInfo;
             if (user.user_type == 'employee') {
-                userInfo = await Employee.findOne({ where: { user_id: user.id } });
+                userInfo = await Employees.findOne({ where: { user_id: user.id } });
             } else {
                 userInfo = 'Admin';
             }
@@ -97,7 +96,7 @@ class loginController {
         try {
             const userId = req.user.userId;
             const { currentPassword, newPassword } = req.body;
-            const user = await User.findByPk(userId);
+            const user = await Users.findByPk(userId);
 
             if (!user) {
                 return res.status(404).json({
@@ -122,7 +121,7 @@ class loginController {
 
             let userInfo;
             if (user.user_type == 'employee') {
-                userInfo = await Employee.findOne({ where: { user_id: user.id } });
+                userInfo = await Employees.findOne({ where: { user_id: user.id } });
             } else {
                 userInfo = 'Admin';
             }

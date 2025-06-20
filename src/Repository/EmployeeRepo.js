@@ -1,11 +1,9 @@
-const Employee = require('../../models/employee');
-const EmployeeDocument = require('../../models/employeeDocument');
-const User = require('../../models/user');
+const { Users, Employees, EmployeeDocuments } = require("../../models");
 
 class EmployeeRepo {
     async create(employeeData) {
         try {
-            const user = await User.create({
+            const user = await Users.create({
                 username: employeeData.employee_no,
                 password: 'login@123',
                 user_type: 'employee',
@@ -13,7 +11,7 @@ class EmployeeRepo {
                 status: 1
             });
 
-            const employee = await Employee.create({
+            const employee = await Employees.create({
                 user_id: user.id,
                 employee_no: employeeData.employee_no,
                 name: employeeData.name,
@@ -32,10 +30,10 @@ class EmployeeRepo {
 
     async update(id, updateData) {
         try {
-            const employee = await Employee.findOne({ where: { id } });
+            const employee = await Employees.findOne({ where: { id } });
             if (!employee) return null;
 
-            const user = await User.findOne({ where: { id: employee.user_id } });
+            const user = await Users.findOne({ where: { id: employee.user_id } });
             if (!user) return null;
 
             await user.update({
@@ -61,15 +59,34 @@ class EmployeeRepo {
 
     async createDocument(documentData) {
         try {
-            const created = await EmployeeDocument.create({
+            const created = await EmployeeDocuments.create({
                 employee_id: documentData.employee_id,
-                type: documentData.type || null,
-                file: documentData.file || null,
-                text: documentData.text || null,
-                status: documentData.status || 1
+                type: documentData.type,
+                file: documentData.file,
+                text: documentData.text,
+                status: documentData.status ?? 1
             });
 
             return created;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async updateDocument(id, dataUpdate) {
+        try {
+            const updated = await EmployeeDocuments.findOne({ where: { id } });
+            if (!updated) return null;
+
+            await updated.update({
+                employee_id: dataUpdate.employee_id,
+                type: dataUpdate.type,
+                file: dataUpdate.file,
+                text: dataUpdate.text,
+                status: dataUpdate.status ?? 1
+            });
+
+            return updated;
         } catch (error) {
             throw error;
         }

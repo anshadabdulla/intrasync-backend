@@ -1,9 +1,7 @@
 const { validationResult } = require('express-validator');
 const UserRepo = require('../Repository/UserRepo');
 const EmployeeRepo = require('../Repository/EmployeeRepo');
-const Employee = require('../../models/employee');
-const User = require('../../models/user');
-const EmployeeDocument = require('../../models/employeeDocument');
+const { Employees, EmployeeDocuments } = require('../../models');
 
 class employeeController {
     async create(req, res) {
@@ -92,10 +90,10 @@ class employeeController {
 
     async getAllEmployee(req, res) {
         try {
-            const employees = await Employee.findAll({
+            const employee = await Employees.findAll({
                 include: [
                     {
-                        model: EmployeeDocument,
+                        model: EmployeeDocuments,
                         as: 'documents',
                         attributes: ['id', 'employee_id', 'type', 'file', 'text', 'status']
                     }
@@ -105,7 +103,7 @@ class employeeController {
 
             return res.status(200).json({
                 status: true,
-                data: employees
+                data: employee
             });
         } catch (err) {
             console.error('Error in FindEmplpoyee:', err);
@@ -120,11 +118,11 @@ class employeeController {
         try {
             const { id } = req.params;
 
-            const employee = await Employee.findOne({
+            const employee = await Employees.findOne({
                 where: { id },
                 include: [
                     {
-                        model: EmployeeDocument,
+                        model: EmployeeDocuments,
                         as: 'documents',
                         attributes: ['id', 'employee_id', 'type', 'file', 'text', 'status']
                     }
@@ -155,7 +153,7 @@ class employeeController {
         try {
             const { id } = req.params;
 
-            const employee = await Employee.findOne({ where: { id } });
+            const employee = await Employees.findOne({ where: { id } });
 
             if (!employee) {
                 return res.status(404).json({
@@ -210,6 +208,40 @@ class employeeController {
             }
         } catch (err) {
             console.error('Error in create:', err);
+            res.status(500).json({
+                status: false,
+                errors: [err.message || 'Internal Server Error']
+            });
+        }
+    }
+
+    async updateEmployeeDocument(req, res) {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({
+                    status: false,
+                    errors: errors.array().map((error) => error.msg)
+                });
+            }
+
+            const { id } = req.params;
+
+            const updateDocument = await EmployeeRepo.updateDocument(id, req.body);
+            if (!updateDocument) {
+                return res.status(404).json({
+                    status: false,
+                    errors: ['Employee document not found']
+                });
+            }
+
+            return res.status(200).json({
+                status: true,
+                msg: 'Employee document updated successfully',
+                data: updateDocument
+            });
+        } catch (err) {
+            console.error('Error in update:', err);
             res.status(500).json({
                 status: false,
                 errors: [err.message || 'Internal Server Error']

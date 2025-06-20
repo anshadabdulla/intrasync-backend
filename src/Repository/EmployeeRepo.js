@@ -20,7 +20,6 @@ class EmployeeRepo {
                 lname: employeeData.lname || null,
                 email: employeeData.email,
                 blood_group: employeeData.blood_group || null,
-                photo: employeeData.photo || null,
                 status: 1
             });
 
@@ -50,7 +49,6 @@ class EmployeeRepo {
                 lname: updateData.lname || null,
                 email: updateData.email,
                 blood_group: updateData.blood_group || null,
-                photo: updateData.photo || null,
                 status: updateData.status ?? 1
             });
 

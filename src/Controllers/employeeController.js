@@ -248,6 +248,33 @@ class employeeController {
             });
         }
     }
+    async deleteEmployeeDocument(req, res) {
+        try {
+            const { id } = req.params;
+
+            const document = await EmployeeDocuments.findOne({ where: { id } });
+
+            if (!document) {
+                return res.status(404).json({
+                    status: false,
+                    errors: ['Document not found']
+                });
+            }
+
+            await document.destroy();
+
+            return res.status(200).json({
+                status: true,
+                msg: ' Document deleted successfully'
+            });
+        } catch (err) {
+            console.error('Error in delete:', err);
+            return res.status(500).json({
+                status: false,
+                errors: [err.message || 'Internal Server Error']
+            });
+        }
+    }
 }
 
 module.exports = employeeController;

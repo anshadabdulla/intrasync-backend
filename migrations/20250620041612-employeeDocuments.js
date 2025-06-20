@@ -18,7 +18,7 @@ module.exports = {
                 allowNull: true
             },
             file: {
-                type: Sequelize.TEXT('long'),
+                type: Sequelize.TEXT,
                 allowNull: true
             },
             text: {

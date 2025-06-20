@@ -20,7 +20,7 @@ const EmployeeDocuments = sequelize.define(
             allowNull: true
         },
         file: {
-            type: DataTypes.TEXT('long'),
+            type: DataTypes.TEXT,
             allowNull: true
         },
         text: {

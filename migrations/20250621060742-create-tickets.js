@@ -11,7 +11,7 @@ module.exports = {
             },
             ticket_id: {
                 allowNull: true,
-                type: Sequelize.INTEGER
+                type: Sequelize.STRING
             },
             title: {
                 allowNull: true,

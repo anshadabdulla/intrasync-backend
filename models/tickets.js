@@ -11,7 +11,7 @@ const Tickets = sequelize.define(
             type: DataTypes.INTEGER
         },
         ticket_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: true
         },
         title: {

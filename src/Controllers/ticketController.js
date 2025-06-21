@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const ticketRepo = require('../Repository/ticketRepo');
+const ticketRepo = require('../repository/ticketRepo');
 const TicketRepo = new ticketRepo();
 
 class ticketController {

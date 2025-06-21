@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
-const UserRepo = require('../Repository/UserRepo');
-const EmployeeRepo = require('../Repository/EmployeeRepo');
+const UserRepo = require('../repository/UserRepo');
+const EmployeeRepo = require('../repository/EmployeeRepo');
 const { Employees, EmployeeDocuments, Users } = require('../../models');
 
 class employeeController {

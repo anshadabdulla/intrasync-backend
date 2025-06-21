@@ -1,6 +1,6 @@
-const UserRepo = require('../Repository/UserRepo');
+const UserRepo = require('../repository/UserRepo');
 const jwt = require('jsonwebtoken');
-const EmailRepo = require('../Repository/EmailRepo');
+const EmailRepo = require('../repository/EmailRepo');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const { Users, Employees } = require('../../models');

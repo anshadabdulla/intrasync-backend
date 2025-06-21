@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ticketController = require('../Controllers/ticketController');
+const ticketController = require('../controllers/ticketController');
 const TicketController = new ticketController();
 const auth = require('../middleware/auth');
 

@@ -5,23 +5,23 @@ const Settings = sequelize.define(
     'Settings',
     {
         id: {
+            type: DataTypes.INTEGER,
             allowNull: false,
             autoIncrement: true,
-            primaryKey: true,
-            type: DataTypes.INTEGER
+            primaryKey: true
         },
         key: {
-            allowNull: false,
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            allowNull: false
         },
         value: {
-            allowNull: false,
-            type: DataTypes.TEXT
+            type: DataTypes.TEXT,
+            allowNull: false
         },
         status: {
+            type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: 1,
-            type: DataTypes.INTEGER
+            defaultValue: 1
         }
     },
     {

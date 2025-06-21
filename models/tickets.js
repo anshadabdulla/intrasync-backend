@@ -5,10 +5,10 @@ const Tickets = sequelize.define(
     'Tickets',
     {
         id: {
+            type: DataTypes.INTEGER,
             allowNull: false,
             autoIncrement: true,
-            primaryKey: true,
-            type: DataTypes.INTEGER
+            primaryKey: true
         },
         ticket_id: {
             type: DataTypes.STRING,

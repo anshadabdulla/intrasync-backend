@@ -10,7 +10,7 @@ module.exports = {
                 type: Sequelize.INTEGER
             },
             ticket_id: {
-                allowNull: false,
+                allowNull: true,
                 type: Sequelize.INTEGER
             },
             title: {

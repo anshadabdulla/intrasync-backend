@@ -249,6 +249,7 @@ class employeeController {
             });
         }
     }
+
     async deleteEmployeeDocument(req, res) {
         try {
             const { id } = req.params;

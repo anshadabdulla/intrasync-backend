@@ -92,6 +92,7 @@ class loginController {
             });
         }
     }
+
     async resetPassword(req, res) {
         try {
             const userId = req.user.userId;
@@ -144,6 +145,7 @@ class loginController {
             });
         }
     }
+
     async logout(req, res) {
         try {
             res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'strict' });

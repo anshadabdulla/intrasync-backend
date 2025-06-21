@@ -3,6 +3,7 @@ const Employees = require('../../models/Employees');
 const TicketDetails = require('../../models/TicketDetails');
 const Settings = require('../../models/Settings');
 const sequelize = require('../database/db');
+const { generatePattern } = require('../helper/commonHelper');
 
 class TicketRepo {
     async checkDuplication({ title }) {

@@ -2,39 +2,26 @@
 
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable('Employees', {
+        await queryInterface.createTable('EmployeeDocuments', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER,
+                type: Sequelize.INTEGER
             },
-            user_id: {
+            employee_id: {
                 allowNull: false,
-                type: Sequelize.INTEGER,
+                type: Sequelize.INTEGER
             },
-            employee_no: {
-                allowNull: false,
-                unique: true,
-                type: Sequelize.STRING,
-            },
-            name: {
-                allowNull: false,
-                type: Sequelize.STRING
-            },
-            mname: {
+            type: {
                 allowNull: true,
                 type: Sequelize.STRING
             },
-            lname: {
+            file: {
                 allowNull: true,
-                type: Sequelize.STRING
+                type: Sequelize.TEXT
             },
-            email: {
-                allowNull: false,
-                type: Sequelize.STRING
-            },
-            blood_group: {
+            text: {
                 allowNull: true,
                 type: Sequelize.STRING
             },
@@ -44,20 +31,20 @@ module.exports = {
             },
             createdAt: {
                 allowNull: false,
-                type: Sequelize.DATE,
+                type: Sequelize.DATE
             },
             updatedAt: {
                 allowNull: false,
-                type: Sequelize.DATE,
+                type: Sequelize.DATE
             },
             deletedAt: {
                 allowNull: true,
-                type: Sequelize.DATE,
-            },
+                type: Sequelize.DATE
+            }
         });
     },
 
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable('Employees');
-    },
+        await queryInterface.dropTable('EmployeeDocuments');
+    }
 };

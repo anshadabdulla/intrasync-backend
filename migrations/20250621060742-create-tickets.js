@@ -2,62 +2,70 @@
 
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable('Employees', {
+        await queryInterface.createTable('Tickets', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER,
+                type: Sequelize.INTEGER
             },
-            user_id: {
+            ticket_id: {
                 allowNull: false,
-                type: Sequelize.INTEGER,
+                type: Sequelize.INTEGER
             },
-            employee_no: {
-                allowNull: false,
-                unique: true,
-                type: Sequelize.STRING,
-            },
-            name: {
-                allowNull: false,
-                type: Sequelize.STRING
-            },
-            mname: {
+            title: {
                 allowNull: true,
                 type: Sequelize.STRING
             },
-            lname: {
+            category: {
                 allowNull: true,
                 type: Sequelize.STRING
             },
-            email: {
+            priority: {
                 allowNull: false,
                 type: Sequelize.STRING
             },
-            blood_group: {
+            assigned_to: {
+                allowNull: true,
+                type: Sequelize.INTEGER
+            },
+            created_by: {
+                allowNull: true,
+                type: Sequelize.INTEGER
+            },
+            description: {
+                allowNull: true,
+                type: Sequelize.TEXT
+            },
+            file: {
                 allowNull: true,
                 type: Sequelize.STRING
+            },
+            reason: {
+                allowNull: true,
+                type: Sequelize.TEXT
             },
             status: {
-                allowNull: true,
+                allowNull: false,
+                defaultValue: 0,
                 type: Sequelize.INTEGER
             },
             createdAt: {
                 allowNull: false,
-                type: Sequelize.DATE,
+                type: Sequelize.DATE
             },
             updatedAt: {
                 allowNull: false,
-                type: Sequelize.DATE,
+                type: Sequelize.DATE
             },
             deletedAt: {
                 allowNull: true,
-                type: Sequelize.DATE,
-            },
+                type: Sequelize.DATE
+            }
         });
     },
 
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable('Employees');
-    },
+        await queryInterface.dropTable('Tickets');
+    }
 };

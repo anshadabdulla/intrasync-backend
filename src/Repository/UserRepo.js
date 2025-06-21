@@ -25,6 +25,8 @@ class UserRepo {
             if (!match) {
                 return { error: 'Invalid credentials.' };
             }
+            user.last_login = new Date();
+            await user.save();
             return { user };
         } catch (error) {
             return { error: error.message || 'Internal Server Error' };

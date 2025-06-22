@@ -19,7 +19,7 @@ class EmailRepo {
             const html = compiledTemplate(data);
 
             const mailOptions = {
-                from: `"My-new -Project" <${process.env.EMAIL_USER}>`,
+                from: `"intrasync" <${process.env.EMAIL_USER}>`,
                 to: data.email,
                 subject: subject,
                 html: html

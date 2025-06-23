@@ -1,0 +1,61 @@
+<html lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+
+    <head>
+        <meta charset='UTF-8' />
+        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+        <title>Password Reset</title>
+
+        <style>
+            body { margin: 0; padding: 0; background-color: #f4f6f8; font-family: 'Segoe UI', 'Lato', 'Helvetica Neue',
+            Helvetica, Arial, sans-serif; } .email-wrapper { width: 100%; background-color: #f4f6f8; padding: 40px 0; }
+            .email-content { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow:
+            hidden; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05); } .email-header { padding: 30px 20px 10px; text-align:
+            center; background-color: #ffffff; } .email-header img { max-width: 120px; height: auto; } .email-body {
+            padding: 30px 40px; text-align: left; color: #333333; } .email-body h1 { font-size: 24px; margin: 0 0 20px;
+            font-weight: 600; } .email-body p { font-size: 15px; line-height: 1.7; margin: 10px 0; } .password-box {
+            display: inline-block; background-color: #f0f0f0; color: #1e1e1e; font-weight: 600; padding: 10px 16px;
+            border-radius: 6px; margin: 15px 0; letter-spacing: 1px; } .email-footer { text-align: center; font-size:
+            13px; color: #999999; padding: 25px 30px 30px; background-color: #fafafa; } .email-footer a { color:
+            #1f3a6e; text-decoration: none; } @media screen and (max-width: 600px) { .email-body { padding: 25px 20px; }
+            .email-body h1 { font-size: 20px; } .email-body p { font-size: 14px; } .email-header img { max-width: 90px;
+            } .password-box { font-size: 14px; } }
+        </style>
+    </head>
+
+    <body>
+        <div class='email-wrapper'>
+            <table cellpadding='0' cellspacing='0' width='100%'>
+                <tr>
+                    <td>
+                        <div class='email-content'>
+                            <div class='email-header'>
+                                <img src='cid:logoImage' alt='Intrasync Logo' />
+                            </div>
+                            <div class='email-body'>
+                                <h1>{{salutation}},</h1>
+                                <p>We received a request to reset the password for your
+                                    <strong>Intrasync</strong>
+                                    account.</p>
+                                <p>Please use the following temporary password to log in:</p>
+                                <div class='password-box'>{{password}}</div>
+                                <p>We recommend changing this password after logging in for enhanced security.</p>
+                                <p>If you didn’t request this change, please
+                                    <a href='mailto:anshad@yopmail.com'>contact support</a>
+                                    immediately.</p>
+                                <p>Thank you,<br />The Intrasync Team</p>
+                            </div>
+                            <div class='email-footer'>
+                                Need help?
+                                <a href='mailto:anshad@yopmail.com'>anshad@yopmail.com</a><br />
+                                <a href='#'>Unsubscribe</a>
+                                from future notifications
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+
+</html>

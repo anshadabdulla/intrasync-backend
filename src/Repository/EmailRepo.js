@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const fs = require('fs').promises;
+const path = require('path');
 const handlebars = require('handlebars');
 require('dotenv').config();
 
@@ -22,7 +23,14 @@ class EmailRepo {
                 from: `"intrasync" <${process.env.EMAIL_USER}>`,
                 to: data.email,
                 subject: subject,
-                html: html
+                html: html,
+                attachments: [
+                    {
+                        filename: 'logo.png',
+                        path: path.join(__dirname, '../../src/emails/images/logo.png'),
+                        cid: 'logoImage'
+                    }
+                ]
             };
 
             if (needCC && cc.length > 0) {
@@ -39,7 +47,7 @@ class EmailRepo {
     }
 
     async loadTemplate(templateName) {
-        const filePath = `templates/${templateName}.handlebars`;
+        const filePath = path.join(__dirname, '../../src/emails/templates', `${templateName}.handlebars`);
         try {
             return await fs.readFile(filePath, 'utf8');
         } catch (err) {

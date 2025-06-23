@@ -100,7 +100,10 @@ class loginController {
 
             const user = await Users.findByPk(userId);
             if (!user) {
-                return res.status(404).json({ status: false, data: 'User not found' });
+                return res.status(404).json({
+                    status: false,
+                    data: 'User not found'
+                });
             }
 
             if (newPassword === currentPassword) {
@@ -112,7 +115,10 @@ class loginController {
 
             const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
             if (!isPasswordValid) {
-                return res.status(400).json({ status: false, data: 'Current password is incorrect' });
+                return res.status(400).json({
+                    status: false,
+                    data: 'Current password is incorrect'
+                });
             }
 
             const hashedPassword = await bcrypt.hash(newPassword, 10);

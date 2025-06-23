@@ -97,49 +97,48 @@ class loginController {
         try {
             const userId = req.user.userId;
             const { currentPassword, newPassword } = req.body;
-            const user = await Users.findByPk(userId);
 
+            const user = await Users.findByPk(userId);
             if (!user) {
-                return res.status(404).json({
+                return res.status(404).json({ status: false, data: 'User not found' });
+            }
+
+            if (newPassword === currentPassword) {
+                return res.status(409).json({
                     status: false,
-                    data: 'User not found'
+                    data: 'Choose a new password.'
                 });
             }
 
             const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
-
             if (!isPasswordValid) {
-                return res.status(400).json({
-                    status: false,
-                    data: 'Current password is incorrect'
-                });
+                return res.status(400).json({ status: false, data: 'Current password is incorrect' });
             }
-            const hashedPassword = await bcrypt.hash(newPassword, 10);
 
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
             user.password = hashedPassword;
             user.reset_flag = false;
             await user.save();
 
-            let userInfo;
-            if (user.user_type == 'employee') {
-                userInfo = await Employees.findOne({ where: { user_id: user.id } });
+            let salutation = 'Hi,';
+            if (user.user_type === 'employee') {
+                const userInfo = await Employees.findOne({ where: { user_id: user.id } });
+                salutation = userInfo ? `Dear ${userInfo.name},` : 'Hi,';
             } else {
-                userInfo = 'Admin';
+                salutation = 'Hi Admin,';
             }
-            let salutation = userInfo == 'Admin' ? 'Hi Admin, ' : 'Dear ' + userInfo.name;
 
-            let email = user.email;
-            const emailData = { salutation, email };
-            let subject = 'Password Reset Confirmation';
-            emailRepo.sendEmail('reset-password-email', subject, emailData);
+            const emailData = { salutation, email: user.email };
+            const subject = 'Password Reset Confirmation';
+            await emailRepo.sendEmail('reset-password-email', subject, emailData);
 
-            res.status(200).json({
+            return res.status(200).json({
                 status: true,
                 data: 'Password changed successfully'
             });
         } catch (error) {
             console.error('Error during password reset:', error);
-            res.status(500).json({
+            return res.status(500).json({
                 status: false,
                 data: 'Internal Server Error'
             });

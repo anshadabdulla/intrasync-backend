@@ -1,4 +1,4 @@
-const { Users, Employees, EmployeeDocuments } = require("../../models");
+const { Users, Employees, EmployeeDocuments } = require('../../models');
 
 class EmployeeRepo {
     async create(employeeData) {
@@ -19,6 +19,11 @@ class EmployeeRepo {
                 lname: employeeData.lname || null,
                 email: employeeData.email,
                 blood_group: employeeData.blood_group || null,
+                mobile: employeeData.mobile,
+                doj: employeeData.doj || null,
+                residential_address: employeeData.residential_address || null,
+                permenent_address: employeeData.permenent_address,
+                gender: employeeData.gender,
                 status: 1
             });
 
@@ -48,6 +53,11 @@ class EmployeeRepo {
                 lname: updateData.lname || null,
                 email: updateData.email,
                 blood_group: updateData.blood_group || null,
+                mobile: updateData.mobile,
+                doj: updateData.doj || null,
+                residential_address: updateData.residential_address || null,
+                permenent_address: updateData.permenent_address,
+                gender: updateData.gender,
                 status: updateData.status ?? 1
             });
 

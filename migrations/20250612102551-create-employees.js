@@ -7,16 +7,16 @@ module.exports = {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER,
+                type: Sequelize.INTEGER
             },
             user_id: {
                 allowNull: false,
-                type: Sequelize.INTEGER,
+                type: Sequelize.INTEGER
             },
             employee_no: {
                 allowNull: false,
                 unique: true,
-                type: Sequelize.STRING,
+                type: Sequelize.STRING
             },
             name: {
                 allowNull: false,
@@ -38,26 +38,46 @@ module.exports = {
                 allowNull: true,
                 type: Sequelize.STRING
             },
+            mobile: {
+                allowNull: false,
+                type: Sequelize.STRING
+            },
+            doj: {
+                allowNull: true,
+                type: Sequelize.DATEONLY
+            },
+            residential_address: {
+                allowNull: true,
+                type: Sequelize.TEXT
+            },
+            permenent_address: {
+                allowNull: false,
+                type: Sequelize.TEXT
+            },
+            gender: {
+                allowNull: false,
+                type: Sequelize.STRING
+            },
             status: {
                 allowNull: true,
                 type: Sequelize.INTEGER
             },
             createdAt: {
                 allowNull: false,
-                type: Sequelize.DATE,
+                type: Sequelize.DATE
             },
             updatedAt: {
                 allowNull: false,
-                type: Sequelize.DATE,
+                type: Sequelize.DATE
             },
             deletedAt: {
                 allowNull: true,
-                type: Sequelize.DATE,
-            },
+                type: Sequelize.DATE
+            }
         });
     },
 
     down: async (queryInterface, Sequelize) => {
         await queryInterface.dropTable('Employees');
-    },
+    }
 };

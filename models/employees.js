@@ -39,6 +39,26 @@ const Employees = sequelize.define(
             type: DataTypes.STRING,
             allowNull: true
         },
+        mobile: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        doj: {
+            type: DataTypes.DATEONLY,
+            allowNull: true
+        },
+        residential_address: {
+            type: DataTypes.TEXT,
+            allowNull: true
+        },
+        permenent_address: {
+            type: DataTypes.TEXT,
+            allowNull: false
+        },
+        gender: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         status: {
             type: DataTypes.INTEGER,
             allowNull: true

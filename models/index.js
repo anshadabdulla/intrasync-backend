@@ -4,6 +4,8 @@ const Employees = require('./employees');
 const Users = require('./users');
 const Tickets = require('./tickets');
 const Ticket_details = require('./ticketDetails');
+const Designations = require('./designations');
+const Departments = require('./departments');
 
 Employees.belongsTo(Users, {
     foreignKey: 'user_id'
@@ -39,13 +41,45 @@ Ticket_details.belongsTo(Employees, {
     as: 'updatedBy'
 });
 
+Employees.belongsTo(Employees, {
+    foreignKey: 'teamlead',
+    as: 'TeamLead'
+});
+
+Employees.hasMany(Employees, {
+    foreignKey: 'teamlead',
+    as: 'TeamMembers'
+});
+
+Employees.belongsTo(Designations, {
+    foreignKey: 'designation',
+    as: 'Designation'
+});
+
+Designations.hasMany(Employees, {
+    foreignKey: 'designation',
+    as: 'Employees'
+});
+
+Employees.belongsTo(Departments, {
+    foreignKey: 'department',
+    as: 'Department'
+});
+
+Departments.hasMany(Employees, {
+    foreignKey: 'department',
+    as: 'Employees'
+});
+
 const db = {
     sequelize,
     Users,
     Employees,
     EmployeeDocuments,
     Tickets,
-    Ticket_details
+    Ticket_details,
+    Designations,
+    Departments
 };
 
 module.exports = db;

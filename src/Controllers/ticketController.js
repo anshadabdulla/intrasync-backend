@@ -1,6 +1,5 @@
 const { validationResult } = require('express-validator');
-const ticketRepo = require('../repository/ticketRepo');
-const TicketRepo = new ticketRepo();
+const TicketRepo = require('../repository/ticketRepo');
 
 class ticketController {
     async create(req, res) {
@@ -22,7 +21,7 @@ class ticketController {
                     msg: 'Ticket with this title already exists.'
                 });
             }
-            console.log ('!!!!!', req.user);
+            console.log('!!!!!', req.user);
             const response = await TicketRepo.create(req.body, req.user.userId);
 
             if (response) {
@@ -65,7 +64,7 @@ class ticketController {
                 });
             }
 
-            const duplicate = await TicketingRepo.checkDuplication({ title });
+            const duplicate = await TicketRepo.checkDuplication({ title });
             if (duplicate && duplicate.id != id) {
                 return res.status(400).json({
                     status: false,
@@ -73,7 +72,7 @@ class ticketController {
                 });
             }
 
-            const response = await TicketingRepo.update(id, req.body);
+            const response = await TicketRepo.update(id, req.body);
             if (response) {
                 return res.status(200).json({
                     status: true,

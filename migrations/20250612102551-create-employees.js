@@ -58,6 +58,18 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.STRING
             },
+            department: {
+                allowNull: true,
+                type: Sequelize.INTEGER
+            },
+            designation: {
+                allowNull: true,
+                type: Sequelize.INTEGER
+            },
+            teamlead: {
+                allowNull: true,
+                type: Sequelize.INTEGER
+            },
             status: {
                 allowNull: true,
                 type: Sequelize.INTEGER

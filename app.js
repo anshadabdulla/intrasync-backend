@@ -7,6 +7,7 @@ const sequelize = require('./src/database/db');
 const loginRouter = require('./src/router/loginRouter');
 const employeeRouter = require('./src/router/employeeRouter');
 const ticketRouter = require('./src/router/ticketRouter');
+const masterDataRouter = require('./src/router/masterDataRouter');
 require('./models');
 
 app.use(cors());
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: true, limit: '5mb' }));
 app.use('/api', loginRouter);
 app.use('/api', employeeRouter);
 app.use('/api', ticketRouter);
+app.use('/api', masterDataRouter);
 
 sequelize
     .sync()

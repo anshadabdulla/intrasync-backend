@@ -24,6 +24,9 @@ class EmployeeRepo {
                 residential_address: employeeData.residential_address || null,
                 permenent_address: employeeData.permenent_address,
                 gender: employeeData.gender,
+                department: employeeData.department || null,
+                designation: employeeData.designation || null,
+                teamlead: employeeData.teamlead || null,
                 status: 1
             });
 
@@ -58,6 +61,9 @@ class EmployeeRepo {
                 residential_address: updateData.residential_address || null,
                 permenent_address: updateData.permenent_address,
                 gender: updateData.gender,
+                department: updateData.department || null,
+                designation: updateData.designation || null,
+                teamlead: updateData.teamlead || null,
                 status: updateData.status ?? 1
             });
 

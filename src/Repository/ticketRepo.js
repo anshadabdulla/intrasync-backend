@@ -89,9 +89,7 @@ class TicketRepo {
 
             ticket.title = data.title;
             ticket.category_id = data.category_id || null;
-            (ticket.sub_category_id = data.sub_category_id || null),
-                // ticket.asset_id				= data.asset_id || null,
-                (ticket.priority = data.priority || null);
+            (ticket.sub_category_id = data.sub_category_id || null), (ticket.priority = data.priority || null);
             ticket.assigned_to = data.assigned_to || null;
             ticket.dept_assigned_to = data.dept_assigned_to || null;
             ticket.description = data.description || null;
@@ -119,4 +117,4 @@ class TicketRepo {
     }
 }
 
-module.exports = TicketRepo;
+module.exports = new TicketRepo();

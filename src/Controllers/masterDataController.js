@@ -1,10 +1,10 @@
 const { validationResult } = require('express-validator');
-const UserRepo = require('../repository/UserRepo');
-const EmployeeRepo = require('../repository/EmployeeRepo');
-const { Employees, EmployeeDocuments, Users, Designations, Departments } = require('../../models');
+const { Departments, Designations } = require('../../models');
+const MasterDataRepo = require('../repository/MasterDataRepo');
+const { where } = require('sequelize');
 
-class employeeController {
-    async createEmployee(req, res) {
+class masterDataController {
+    async createDepartment(req, res) {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
@@ -13,23 +13,22 @@ class employeeController {
                     errors: errors.array().map((error) => error.msg)
                 });
             }
+            const { name } = req.body;
+            const existingDepartment = await Departments.findOne({ where: { name } });
 
-            const { email } = req.body;
-            const existingUser = await UserRepo.getByEmail(email);
-
-            if (existingUser) {
+            if (existingDepartment) {
                 return res.status(400).json({
                     status: false,
-                    errors: ['Email already exists']
+                    errors: ['Department already exists']
                 });
             }
 
-            const employee = await EmployeeRepo.create(req.body);
+            const department = await MasterDataRepo.createDepartment(req.body);
 
-            if (employee) {
+            if (department) {
                 return res.status(200).json({
                     status: true,
-                    msg: 'Employee created successfully'
+                    msg: 'Departments created successfully'
                 });
             } else {
                 return res.status(500).json({
@@ -45,8 +44,7 @@ class employeeController {
             });
         }
     }
-
-    async updateEmployee(req, res) {
+    async updateDepartment(req, res) {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
@@ -55,29 +53,19 @@ class employeeController {
                     errors: errors.array().map((error) => error.msg)
                 });
             }
-
             const { id } = req.params;
-            const { email } = req.body;
+            const department = await MasterDataRepo.updateDepartment(req.body, id);
 
-            const existingUser = await UserRepo.getByEmail(email);
-            if (existingUser && existingUser.id != id) {
-                return res.status(400).json({
-                    status: false,
-                    errors: ['Email already exists']
-                });
-            }
-
-            const employee = await EmployeeRepo.update(id, req.body);
-            if (!employee) {
+            if (!department) {
                 return res.status(404).json({
                     status: false,
-                    errors: ['Employee not found']
+                    errors: ['department not found']
                 });
             }
 
             return res.status(200).json({
                 status: true,
-                msg: 'Employee updated successfully'
+                msg: 'department updated successfully'
             });
         } catch (err) {
             console.error('Error in update:', err);
@@ -87,26 +75,27 @@ class employeeController {
             });
         }
     }
-
-    async getAllEmployee(req, res) {
+    async deleteDepartment(req, res) {
         try {
-            const employee = await Employees.findAll({
-                include: [
-                    {
-                        model: EmployeeDocuments,
-                        as: 'documents',
-                        attributes: ['id', 'employee_id', 'type', 'file', 'text', 'status']
-                    }
-                ],
-                order: [['createdAt', 'DESC']]
-            });
+            const { id } = req.params;
+
+            const department = await Departments.findOne({ where: { id } });
+
+            if (!department) {
+                return res.status(404).json({
+                    status: false,
+                    errors: ['Department not found']
+                });
+            }
+
+            await department.destroy();
 
             return res.status(200).json({
                 status: true,
-                data: employee
+                msg: ' Department deleted successfully'
             });
         } catch (err) {
-            console.error('Error in FindEmplpoyee:', err);
+            console.error('Error in delete:', err);
             return res.status(500).json({
                 status: false,
                 errors: [err.message || 'Internal Server Error']
@@ -114,46 +103,22 @@ class employeeController {
         }
     }
 
-    async getEmployeeById(req, res) {
+    async getDepartmentById(req, res) {
         try {
             const { id } = req.params;
 
-            const employee = await Employees.findOne({
-                where: { id },
-                include: [
-                    {
-                        model: Employees,
-                        as: 'TeamLead',
-                        attributes: ['id', 'name']
-                    },
-                    {
-                        model: Designations,
-                        as: 'Designation',
-                        attributes: ['id', 'name', 'type', 'notice_period']
-                    },
-                    {
-                        model: Departments,
-                        as: 'Department',
-                        attributes: ['id', 'name']
-                    },
-                    {
-                        model: EmployeeDocuments,
-                        as: 'documents',
-                        attributes: ['id', 'employee_id', 'type', 'file', 'text', 'status']
-                    }
-                ]
-            });
+            const department = await Departments.findOne({ where: { id } });
 
-            if (!employee) {
+            if (!department) {
                 return res.status(404).json({
                     status: false,
-                    errors: ['Employee not found']
+                    errors: ['Departments not found']
                 });
             }
 
             return res.status(200).json({
                 status: true,
-                data: employee
+                data: department
             });
         } catch (err) {
             console.error('Error in getEmployeeById:', err);
@@ -164,32 +129,23 @@ class employeeController {
         }
     }
 
-    async deleteEmployee(req, res) {
+    async getAllDepartment(req, res) {
         try {
-            const { id } = req.params;
+            const department = await Departments.findAll({});
 
-            const employee = await Employees.findOne({ where: { id } });
-
-            if (!employee) {
+            if (!department) {
                 return res.status(404).json({
                     status: false,
-                    errors: ['Employee not found']
+                    errors: ['Departments not found']
                 });
-            }
-            const userId = employee.user_id;
-
-            await employee.destroy();
-
-            if (userId) {
-                await Users.destroy({ where: { id: userId } });
             }
 
             return res.status(200).json({
                 status: true,
-                msg: 'Employee deleted successfully'
+                data: department
             });
         } catch (err) {
-            console.error('Error in delete:', err);
+            console.error('Error in getEmployeeById:', err);
             return res.status(500).json({
                 status: false,
                 errors: [err.message || 'Internal Server Error']
@@ -197,7 +153,7 @@ class employeeController {
         }
     }
 
-    async createEmployeeDocument(req, res) {
+    async createDesignation(req, res) {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
@@ -206,14 +162,22 @@ class employeeController {
                     errors: errors.array().map((error) => error.msg)
                 });
             }
+            const { name } = req.body;
+            const existingDesignation = await Designations.findOne({ where: { name } });
 
-            const newDocument = await EmployeeRepo.createDocument(req.body);
+            if (existingDesignation) {
+                return res.status(400).json({
+                    status: false,
+                    errors: ['Designation already exists']
+                });
+            }
 
-            if (newDocument) {
+            const designation = await MasterDataRepo.createDesignation(req.body);
+
+            if (designation) {
                 return res.status(200).json({
                     status: true,
-                    msg: 'Employee document created successfully',
-                    data: newDocument
+                    msg: 'Designation created successfully'
                 });
             } else {
                 return res.status(500).json({
@@ -230,7 +194,7 @@ class employeeController {
         }
     }
 
-    async updateEmployeeDocument(req, res) {
+    async updateDesignation(req, res) {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
@@ -239,22 +203,19 @@ class employeeController {
                     errors: errors.array().map((error) => error.msg)
                 });
             }
-
             const { id } = req.params;
+            const designation = await MasterDataRepo.updateDesignation(req.body, id);
 
-            const updateDocument = await EmployeeRepo.updateDocument(id, req.body);
-
-            if (!updateDocument) {
+            if (!designation) {
                 return res.status(404).json({
                     status: false,
-                    errors: ['Employee document not found']
+                    errors: ['Designation not found']
                 });
             }
 
             return res.status(200).json({
                 status: true,
-                msg: 'Employee document updated successfully',
-                data: updateDocument
+                msg: 'Designation updated successfully'
             });
         } catch (err) {
             console.error('Error in update:', err);
@@ -265,24 +226,24 @@ class employeeController {
         }
     }
 
-    async deleteEmployeeDocument(req, res) {
+    async deleteDesignation(req, res) {
         try {
             const { id } = req.params;
 
-            const document = await EmployeeDocuments.findOne({ where: { id } });
+            const designation = await Designations.findOne({ where: { id } });
 
-            if (!document) {
+            if (!designation) {
                 return res.status(404).json({
                     status: false,
-                    errors: ['Document not found']
+                    errors: ['Designation not found']
                 });
             }
 
-            await document.destroy();
+            await designation.destroy();
 
             return res.status(200).json({
                 status: true,
-                msg: ' Document deleted successfully'
+                msg: ' Designation deleted successfully'
             });
         } catch (err) {
             console.error('Error in delete:', err);
@@ -292,6 +253,56 @@ class employeeController {
             });
         }
     }
+
+    async getDesignationById(req, res) {
+        try {
+            const { id } = req.params;
+
+            const designation = await Designations.findOne({ where: { id } });
+
+            if (!designation) {
+                return res.status(404).json({
+                    status: false,
+                    errors: ['Designation not found']
+                });
+            }
+
+            return res.status(200).json({
+                status: true,
+                data: designation
+            });
+        } catch (err) {
+            console.error('Error in getEmployeeById:', err);
+            return res.status(500).json({
+                status: false,
+                errors: [err.message || 'Internal Server Error']
+            });
+        }
+    }
+
+    async getAllDesignation(req, res) {
+        try {
+            const designation = await Designations.findAll({});
+
+            if (!designation) {
+                return res.status(404).json({
+                    status: false,
+                    errors: ['Designation not found']
+                });
+            }
+
+            return res.status(200).json({
+                status: true,
+                data: designation
+            });
+        } catch (err) {
+            console.error('Error in getEmployeeById:', err);
+            return res.status(500).json({
+                status: false,
+                errors: [err.message || 'Internal Server Error']
+            });
+        }
+    }
 }
 
-module.exports = employeeController;
+module.exports = masterDataController;

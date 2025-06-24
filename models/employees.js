@@ -59,6 +59,18 @@ const Employees = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false
         },
+        department: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
+        designation: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
+        teamlead: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
         status: {
             type: DataTypes.INTEGER,
             allowNull: true

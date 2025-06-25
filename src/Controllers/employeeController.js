@@ -90,26 +90,61 @@ class employeeController {
 
     async getAllEmployee(req, res) {
         try {
-            const employee = await Employees.findAll({
+            const page = parseInt(req.query.page, 10) || 1;
+            const pageSize = parseInt(req.query.pageSize, 10) || 10;
+            const offset = (page - 1) * pageSize;
+
+            const whereClause = { status: 1 };
+
+            const { count, rows: employees } = await Employees.findAndCountAll({
+                where: whereClause,
                 include: [
+                    {
+                        model: Employees,
+                        as: 'TeamLead',
+                        attributes: ['id', 'name']
+                    },
+                    {
+                        model: Designations,
+                        as: 'Designation',
+                        attributes: ['id', 'name', 'type', 'notice_period']
+                    },
+                    {
+                        model: Departments,
+                        as: 'Department',
+                        attributes: ['id', 'name']
+                    },
                     {
                         model: EmployeeDocuments,
                         as: 'documents',
                         attributes: ['id', 'employee_id', 'type', 'file', 'text', 'status']
                     }
                 ],
-                order: [['createdAt', 'DESC']]
+                limit: pageSize,
+                offset: offset,
+                distinct: true,
+                order: [['name', 'ASC']]
             });
+
+            if (count === 0) {
+                return res.status(404).json({
+                    status: false,
+                    msg: 'No Employees found'
+                });
+            }
 
             return res.status(200).json({
                 status: true,
-                data: employee
+                data: employees,
+                total: count,
+                currentPage: page,
+                totalPages: Math.ceil(count / pageSize)
             });
-        } catch (err) {
-            console.error('Error in FindEmplpoyee:', err);
+        } catch (error) {
+            console.error('Error in fetch all employee:', error);
             return res.status(500).json({
                 status: false,
-                errors: [err.message || 'Internal Server Error']
+                msg: 'Internal Server Error'
             });
         }
     }

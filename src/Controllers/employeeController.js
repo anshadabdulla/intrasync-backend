@@ -104,8 +104,12 @@ class employeeController {
                 ];
             }
 
-            if (req.query.designation) {
-                whereClause.designation = req.query.designation;
+            if (req.query.department) {
+                whereClause.department = req.query.department;
+            }
+
+            if (req.query.status) {
+                whereClause.status = req.query.status;
             }
 
             if (req.query.department) {

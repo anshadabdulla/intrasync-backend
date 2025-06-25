@@ -112,8 +112,8 @@ class employeeController {
                 whereClause.status = req.query.status;
             }
 
-            if (req.query.department) {
-                whereClause.department = req.query.department;
+            if (req.query.designation) {
+                whereClause.designation = req.query.designation;
             }
 
             const { count, rows: employees } = await Employees.findAndCountAll({

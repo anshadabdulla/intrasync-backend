@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const UserRepo = require('../repository/UserRepo');
 const EmployeeRepo = require('../repository/EmployeeRepo');
+const { Op, Sequelize } = require('sequelize');
 const { Employees, EmployeeDocuments, Users, Designations, Departments } = require('../../models');
 
 class employeeController {
@@ -95,6 +96,21 @@ class employeeController {
             const offset = (page - 1) * pageSize;
 
             const whereClause = { status: 1 };
+
+            if (req.query.name) {
+                whereClause[Op.or] = [
+                    { full_name: { [Sequelize.Op.iLike]: `%${req.query.name}%` } },
+                    { employee_no: { [Sequelize.Op.iLike]: `%${req.query.name}%` } }
+                ];
+            }
+
+            if (req.query.designation) {
+                whereClause.designation = req.query.designation;
+            }
+
+            if (req.query.department) {
+                whereClause.department = req.query.department;
+            }
 
             const { count, rows: employees } = await Employees.findAndCountAll({
                 where: whereClause,

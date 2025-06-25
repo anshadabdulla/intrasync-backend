@@ -9,6 +9,7 @@ router.put('/employee/:id', auth, employeeController.updateEmployee);
 router.get('/employee/:id', auth, employeeController.getEmployeeById);
 router.get('/employee', auth, employeeController.getAllEmployee);
 router.delete('/employee/:id', auth, employeeController.deleteEmployee);
+router.get('/employee-tl', auth, employeeController.getAllEmployeeTL);
 
 router.post('/employee-document', auth, employeeController.createEmployeeDocument);
 router.put('/employee-document/:id', auth, employeeController.updateEmployeeDocument);

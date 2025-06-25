@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const UserRepo = require('../repository/UserRepo');
 const EmployeeRepo = require('../repository/EmployeeRepo');
 const { Op, Sequelize } = require('sequelize');
+const { getEmployeeHierarchy } = require('../helper/commonHelper');
 const { Employees, EmployeeDocuments, Users, Designations, Departments } = require('../../models');
 
 class employeeController {
@@ -339,6 +340,58 @@ class employeeController {
             return res.status(500).json({
                 status: false,
                 errors: [err.message || 'Internal Server Error']
+            });
+        }
+    }
+
+    async getAllEmployeeTL(req, res) {
+        try {
+            const designations = await EmployeeRepo.getTeamleadId();
+            const whereClause = { status: 1 };
+
+            whereClause.designation = {
+                [Op.in]: designations
+            };
+
+            if (req.query.name !== undefined) {
+                whereClause[Op.or] = [
+                    { '$Employees.full_name$': { [Sequelize.Op.iLike]: `%${req.query.name}%` } },
+                    { '$Employees.employee_no$': { [Sequelize.Op.iLike]: `%${req.query.name}%` } }
+                ];
+            }
+
+            const emp = await Employees.findOne({ attributes: ['id'], where: { user_id: req.user.userId } });
+            if (emp) {
+                if (req.userRole?.type != 'hr') {
+                    whereClause[Op.or] = [
+                        { teamlead: { [Op.in]: await getEmployeeHierarchy(emp?.id) } },
+                        { id: emp.id }
+                    ];
+                }
+            }
+
+            const employees = await Employees.findAll({
+                attributes: ['id', 'employee_no', 'name', 'mname', 'lname', 'email'],
+                where: whereClause,
+                order: [['name', 'ASC']]
+            });
+
+            if (employees.count === 0) {
+                return res.status(404).json({
+                    status: false,
+                    msg: 'No Employees found'
+                });
+            }
+
+            res.status(200).json({
+                status: true,
+                data: employees
+            });
+        } catch (error) {
+            console.error('Error in fetch all employee:', error);
+            res.status(500).json({
+                status: false,
+                msg: 'Internal Server Error'
             });
         }
     }

@@ -1,4 +1,5 @@
-const { Users, Employees, EmployeeDocuments } = require('../../models');
+const { Users, Employees, EmployeeDocuments, Designations } = require('../../models');
+const { Op } = require('sequelize');
 
 class EmployeeRepo {
     async create(employeeData) {
@@ -106,6 +107,16 @@ class EmployeeRepo {
         } catch (error) {
             throw error;
         }
+    }
+
+    async getTeamleadId() {
+        var teamlead = await Designations.findAll({
+            where: {
+                type: { [Op.ne]: 'employee' }
+            }
+        });
+        const tlIds = teamlead.map((entry) => entry.id);
+        return tlIds;
     }
 }
 

@@ -71,6 +71,14 @@ Departments.hasMany(Employees, {
     as: 'Employees'
 });
 
+Employees.addHook('beforeCreate', (employee, options) => {
+    employee.full_name = [employee.name, employee.mname, employee.lname].filter(Boolean).join(' ');
+});
+
+Employees.addHook('beforeUpdate', (employee, options) => {
+    employee.full_name = [employee.name, employee.mname, employee.lname].filter(Boolean).join(' ');
+});
+
 const db = {
     sequelize,
     Users,

@@ -133,11 +133,6 @@ class employeeController {
                         model: Departments,
                         as: 'Department',
                         attributes: ['id', 'name']
-                    },
-                    {
-                        model: EmployeeDocuments,
-                        as: 'documents',
-                        attributes: ['id', 'employee_id', 'type', 'file', 'text', 'status']
                     }
                 ],
                 limit: pageSize,

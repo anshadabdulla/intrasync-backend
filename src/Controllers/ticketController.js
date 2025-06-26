@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const TicketRepo = require('../repository/ticketRepo');
 const { Op, Sequelize } = require('sequelize');
 const { Tickets, Employees, Departments, Designations, Ticket_details } = require('../../models');
+const ExcelJS = require('exceljs');
 
 class ticketController {
     async create(req, res) {
@@ -266,6 +267,116 @@ class ticketController {
             return res.status(500).json({
                 status: false,
                 errors: [error.message || 'Internal Server Error']
+            });
+        }
+    }
+
+    async getTicketsExcel(req, res) {
+        try {
+            const whereClause = {};
+
+            if (req.query.search) {
+                whereClause[Op.or] = [
+                    { title: { [Op.iLike]: `%${req.query.search}%` } },
+                    { ticket_id: { [Op.iLike]: `%${req.query.search}%` } }
+                ];
+            }
+
+            if (req.query.created_by) {
+                whereClause.created_by = req.query.created_by;
+            }
+
+            if (req.query.status) {
+                whereClause.status = req.query.status;
+            }
+
+            if (req.query.category) {
+                whereClause.category = req.query.category;
+            }
+
+            if (req.query.priority) {
+                whereClause.priority = req.query.priority;
+            }
+
+            const tickets = await Tickets.findAll({
+                where: whereClause,
+                include: [
+                    {
+                        model: Employees,
+                        as: 'assignedTo',
+                        attributes: ['employee_no', 'name', 'mname', 'lname', 'email']
+                    },
+                    {
+                        model: Employees,
+                        as: 'CreatedBy',
+                        include: [
+                            {
+                                model: Departments,
+                                as: 'Department',
+                                attributes: ['name']
+                            },
+                            {
+                                model: Designations,
+                                as: 'Designation',
+                                attributes: ['name']
+                            }
+                        ]
+                    }
+                ],
+                order: [['id', 'DESC']]
+            });
+
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('Tickets');
+
+            worksheet.columns = [
+                { header: 'Ticket ID', key: 'ticket_id', width: 15 },
+                { header: 'Title', key: 'title', width: 30 },
+                { header: 'Category', key: 'category', width: 15 },
+                { header: 'Priority', key: 'priority', width: 12 },
+                { header: 'Status', key: 'status', width: 12 },
+                { header: 'Created By', key: 'created_by', width: 25 },
+                { header: 'Department', key: 'department', width: 20 },
+                { header: 'Designation', key: 'designation', width: 20 },
+                { header: 'Assigned To', key: 'assigned_to', width: 25 },
+                { header: 'Created At', key: 'created_at', width: 20 }
+            ];
+
+            tickets.forEach((ticket) => {
+                const createdBy = ticket.CreatedBy;
+                const assigned = ticket.assignedTo;
+
+                const createdByName = `${createdBy?.name || ''} ${createdBy?.mname || ''} ${
+                    createdBy?.lname || ''
+                }`.trim();
+                const assignedToName = `${assigned?.name || ''} ${assigned?.mname || ''} ${
+                    assigned?.lname || ''
+                }`.trim();
+
+                worksheet.addRow({
+                    ticket_id: ticket.ticket_id,
+                    title: ticket.title,
+                    category: ticket.category,
+                    priority: ticket.priority,
+                    status: ticket.status,
+                    created_by: createdByName,
+                    department: createdBy?.Department?.name || '',
+                    designation: createdBy?.Designation?.name || '',
+                    assigned_to: assignedToName,
+                    created_at: ticket.createdAt ? new Date(ticket.createdAt).toLocaleString() : ''
+                });
+            });
+
+            res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            res.setHeader('Content-Disposition', 'attachment; filename=tickets_data.xlsx');
+
+            await workbook.xlsx.write(res);
+            res.end();
+        } catch (error) {
+            console.error('Error exporting tickets to Excel:', error);
+            res.status(500).json({
+                status: false,
+                msg: 'Internal Server Error'
             });
         }
     }

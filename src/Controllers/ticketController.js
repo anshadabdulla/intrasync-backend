@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
 const TicketRepo = require('../repository/ticketRepo');
+const { Tickets, Employees, Departments, Designations, Ticket_details } = require('../../models');
 
 class ticketController {
     async create(req, res) {
@@ -53,6 +54,7 @@ class ticketController {
                     errors: errors.array().map((error) => error.msg)
                 });
             }
+
             const { id } = req.params;
             const { title } = req.body;
 
@@ -72,7 +74,8 @@ class ticketController {
                 });
             }
 
-            const response = await TicketRepo.update(id, req.body);
+            const response = await TicketRepo.update(id, req.body, req.user.userId);
+
             if (response) {
                 return res.status(200).json({
                     status: true,
@@ -88,17 +91,17 @@ class ticketController {
             console.error('Error updating ticket:', err);
             return res.status(500).json({
                 status: false,
-                msg: 'Something went wrong'
+                msg: 'Internal Server Error'
             });
         }
     }
 
     async getAllTickets(req, res) {
         try {
-            const page = req.query.page || 1;
-            const pageSize = req.query.pageSize || 10;
-
+            const page = parseInt(req.query.page, 10) || 1;
+            const pageSize = parseInt(req.query.pageSize, 10) || 10;
             const offset = (page - 1) * pageSize;
+
             const whereClause = {};
 
             if (req.query.search !== undefined) {
@@ -116,55 +119,19 @@ class ticketController {
                 ];
             }
 
-            let employee;
-            if (req.user.user_type != 'admin') {
-                employee = await Employees.findOne({
-                    where: { user_id: req.userId },
-                    attributes: ['id', 'department']
-                });
-                if (req.query.type) {
-                    if (req.query.type == 1) {
-                        whereClause.created_by = employee.id;
-                    } else if (req.query.type == 2) {
-                        whereClause[Sequelize.Op.or] = [
-                            { assigned_to: employee.id },
-                            { '$category.department_id$': employee.department }
-                        ];
-                    }
-                } else {
-                    whereClause[Sequelize.Op.or] = [
-                        { created_by: employee.id },
-                        { assigned_to: employee.id },
-                        { '$category.department_id$': employee.department }
-                    ];
-                }
-            }
-
             if (req.query.department_id) {
                 whereClause['$category.department_id$'] = req.query.department_id;
-            }
-
-            if (req.query.category_id) {
-                whereClause.category_id = req.query.category_id;
-            }
-
-            if (req.query.sub_category_id) {
-                whereClause.sub_category_id = req.query.sub_category_id;
             }
 
             if (req.query.created_by) {
                 whereClause.created_by = req.query.created_by;
             }
 
-            if (req.query.asset_id) {
-                whereClause.asset_id = req.query.asset_id;
-            }
-
             if (req.query.status) {
                 whereClause.status = req.query.status;
             }
 
-            let result = await Tickets.findAndCountAll({
+            let { count, rows: result } = await Tickets.findAndCountAll({
                 where: whereClause,
                 include: [
                     {
@@ -175,30 +142,18 @@ class ticketController {
                     {
                         model: Employees,
                         as: 'CreatedBy',
-                        attributes: ['id', 'employee_no', 'email', 'name', 'mname', 'lname']
-                    },
-                    {
-                        model: Departments,
-                        as: 'assigned_dept',
-                        attributes: ['id', 'name']
-                    },
-                    {
-                        model: Categories,
-                        as: 'category',
-                        required: false,
-                        attributes: ['id', 'name', 'department_id'],
                         include: [
                             {
                                 model: Departments,
-                                as: 'department',
-                                attributes: ['id', 'name', 'email']
+                                as: 'Department',
+                                attributes: ['id', 'name']
+                            },
+                            {
+                                model: Designations,
+                                as: 'Designation',
+                                attributes: ['id', 'name', 'type', 'notice_period']
                             }
                         ]
-                    },
-                    {
-                        model: Categories,
-                        as: 'sub_category',
-                        attributes: ['id', 'name']
                     }
                 ],
                 limit: pageSize,
@@ -207,44 +162,12 @@ class ticketController {
                 order: [['id', 'DESC']]
             });
 
-            const modifiedRows = await Promise.all(
-                result.rows.map(async (element) => {
-                    try {
-                        const signedUrl = s3.getSignedUrl('getObject', {
-                            Bucket: bucketName,
-                            Key: element.file
-                        });
-                        element.file = signedUrl;
-
-                        if (employee) {
-                            if (element.created_by === employee.id) {
-                                element.dataValues.type = 1;
-                            } else if (
-                                element.category &&
-                                element.category.department &&
-                                element.category.department.id === employee.department
-                            ) {
-                                element.dataValues.type = 2;
-                            }
-                        }
-
-                        return element;
-                    } catch (error) {
-                        console.error(`Error updating image URL for ${element.file}:`, error);
-                        return element;
-                    }
-                })
-            );
-
             res.status(200).json({
                 status: true,
-                data: {
-                    count: result.count,
-                    rows: modifiedRows
-                },
-                total: result.count,
+                data: result,
+                total: count,
                 currentPage: page,
-                totalPages: Math.ceil(result.count / pageSize)
+                totalPages: Math.ceil(count / pageSize)
             });
         } catch (err) {
             console.error('getAllTickets: ' + err);
@@ -272,21 +195,20 @@ class ticketController {
                         attributes: ['id', 'name', 'mname', 'lname', 'employee_no']
                     },
                     {
-                        model: Categories,
-                        as: 'category',
-                        attributes: ['id', 'name', 'is_it', 'department_id'],
+                        model: Employees,
+                        as: 'CreatedBy',
                         include: [
                             {
                                 model: Departments,
-                                as: 'department',
+                                as: 'Department',
                                 attributes: ['id', 'name']
+                            },
+                            {
+                                model: Designations,
+                                as: 'Designation',
+                                attributes: ['id', 'name', 'type', 'notice_period']
                             }
                         ]
-                    },
-                    {
-                        model: Categories,
-                        as: 'sub_category',
-                        attributes: ['id', 'name']
                     },
                     {
                         model: Ticket_details,
@@ -298,85 +220,12 @@ class ticketController {
                                 attributes: ['id', 'name', 'mname', 'lname', 'employee_no']
                             }
                         ]
-                    },
-                    {
-                        model: Ticket_assets,
-                        as: 'ticket_assets',
-                        include: [
-                            {
-                                model: Assets,
-                                as: 'assets',
-                                attributes: ['id', 'company_asset_code'],
-                                include: [
-                                    {
-                                        model: Categories,
-                                        as: 'Asset_categories',
-                                        attributes: ['id', 'name']
-                                    },
-                                    {
-                                        model: Asset_brands,
-                                        as: 'Asset_brands',
-                                        attributes: ['id', 'name']
-                                    },
-                                    {
-                                        model: Asset_racks,
-                                        as: 'rack',
-                                        attributes: ['id', 'name', 'code']
-                                    },
-                                    {
-                                        model: Asset_rooms,
-                                        as: 'room',
-                                        attributes: ['id', 'name', 'code']
-                                    }
-                                ]
-                            }
-                        ]
                     }
-                    // {
-                    //     model: Assets,
-                    //     as: 'asset',
-                    //     attributes: ['id', 'company_asset_code'],
-                    //     include: [
-                    //         {
-                    //             model: Categories,
-                    //             as: 'Asset_categories',
-                    //             attributes: ['id','name']
-                    //         },
-                    //         {
-                    //             model: Asset_brands,
-                    //             as: 'Asset_brands',
-                    //             attributes: ['id','name']
-                    //         },
-                    //         {
-                    //             model: Asset_racks,
-                    //             as: 'rack',
-                    //             attributes: ['id','name','code']
-                    //         }
-                    //     ]
-                    // }
                 ],
                 order: [[{ model: Ticket_details, as: 'details' }, 'createdAt', 'ASC']]
             });
             if (!result) {
                 return res.status(404).json({ error: 'Ticket not found' });
-            }
-
-            if (result.file) {
-                result.file = s3.getSignedUrl('getObject', {
-                    Bucket: bucketName,
-                    Key: result.file
-                });
-            }
-
-            if (result?.details) {
-                result.details.forEach((detail) => {
-                    if (detail.file) {
-                        detail.file = s3.getSignedUrl('getObject', {
-                            Bucket: bucketName,
-                            Key: detail.file
-                        });
-                    }
-                });
             }
 
             res.status(200).json({
@@ -422,23 +271,6 @@ class ticketController {
                 errors: [error.message || 'Internal Server Error']
             });
         }
-    }
-}
-
-function getTicketStatus(status) {
-    switch (status) {
-        case 0:
-            return 'Pending';
-        case 1:
-            return 'Resolved';
-        case 2:
-            return 'Reject';
-        case 3:
-            return 'On Hold';
-        case 4:
-            return 'Revoked';
-        default:
-            return '';
     }
 }
 

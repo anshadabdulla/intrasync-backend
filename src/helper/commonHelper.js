@@ -43,8 +43,26 @@ function formatDate(dateStr) {
         .padStart(2, '0')}-${date.getFullYear()}`;
 }
 
+function getTicketStatus(status) {
+    switch (status) {
+        case 0:
+            return 'Pending';
+        case 1:
+            return 'Resolved';
+        case 2:
+            return 'Reject';
+        case 3:
+            return 'On Hold';
+        case 4:
+            return 'Revoked';
+        default:
+            return '';
+    }
+}
+
 module.exports = {
     generatePattern,
     getEmployeeHierarchy,
-    formatDate
+    formatDate,
+    getTicketStatus
 };

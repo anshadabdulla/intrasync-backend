@@ -3,7 +3,7 @@ const Employees = require('../../models/Employees');
 const TicketDetails = require('../../models/TicketDetails');
 const Settings = require('../../models/Settings');
 const sequelize = require('../database/db');
-const { generatePattern } = require('../helper/commonHelper');
+const { generatePattern, getTicketStatus } = require('../helper/commonHelper');
 
 class TicketRepo {
     async checkDuplication({ title }) {
@@ -62,56 +62,41 @@ class TicketRepo {
     }
 
     async update(ticketId, data, userId) {
+        const transaction = await sequelize.transaction();
+        const employee = await Employees.findOne({ where: { user_id: userId } });
+
         try {
-            let fileUrl = '';
-            if (data.file !== '') {
-                const buffer = Buffer.from(data.file.split(',')[1], 'base64');
-                const readableStream = new Readable();
-                readableStream._read = () => {};
-                readableStream.push(buffer);
-                readableStream.push(null);
-
-                const uploadParams = {
-                    Bucket: bucketName,
-                    Body: readableStream,
-                    Key: 'zync/ticketing/' + Date.now() + data.filename,
-                    ACL: 'public-read'
-                };
-
-                const uploadResult = await s3.upload(uploadParams).promise();
-                fileUrl = uploadResult.Key;
-            }
-
-            const ticket = await Tickets.findByPk(ticketId);
+            const ticket = await Tickets.findByPk(ticketId, { transaction });
             if (!ticket) {
                 throw new Error('Ticket not found');
             }
 
             ticket.title = data.title;
-            ticket.category_id = data.category_id || null;
-            (ticket.sub_category_id = data.sub_category_id || null), (ticket.priority = data.priority || null);
+            ticket.category = data.category || null;
+            ticket.priority = data.priority || null;
             ticket.assigned_to = data.assigned_to || null;
-            ticket.dept_assigned_to = data.dept_assigned_to || null;
             ticket.description = data.description || null;
-            ticket.file = fileUrl || ticket.file;
-            ticket.cc = data.email || ticket.cc;
+            ticket.file = data.fileUrl || ticket.file;
+            ticket.status = 1;
 
-            await ticket.save();
+            await ticket.save({ transaction });
 
-            let insertData = [];
-            Ticket_assets.destroy({ where: { ticket_id: ticketId } });
-            data?.asset_id?.length &&
-                data?.asset_id.forEach((id) => {
-                    insertData.push({
-                        ticket_id: ticketId,
-                        asset_id: id
-                    });
-                });
+            await TicketDetails.create(
+                {
+                    ticket_id: ticketId,
+                    comment: `Ticket updated by user ${userId} (Status: ${getTicketStatus(ticket.status)})`,
+                    status: ticket.status,
+                    updated_by: employee.id
+                },
+                { transaction }
+            );
 
-            Ticket_assets.bulkCreate(insertData);
-
+            await transaction.commit();
             return ticket;
         } catch (error) {
+            if (transaction.finished !== 'commit') {
+                await transaction.rollback();
+            }
             throw error;
         }
     }

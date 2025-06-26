@@ -104,7 +104,7 @@ class ticketController {
 
             const whereClause = {};
 
-            if (req.query.search !== undefined) {
+            if (req.query.search) {
                 whereClause[Sequelize.Op.or] = [
                     Sequelize.where(
                         Sequelize.fn('LOWER', Sequelize.col('Tickets.title')),

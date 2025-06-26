@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
 const TicketRepo = require('../repository/ticketRepo');
+const { Op, Sequelize } = require('sequelize');
 const { Tickets, Employees, Departments, Designations, Ticket_details } = require('../../models');
 
 class ticketController {
@@ -105,22 +106,10 @@ class ticketController {
             const whereClause = {};
 
             if (req.query.search) {
-                whereClause[Sequelize.Op.or] = [
-                    Sequelize.where(
-                        Sequelize.fn('LOWER', Sequelize.col('Tickets.title')),
-                        'LIKE',
-                        `%${req.query.search.toLowerCase()}%`
-                    ),
-                    Sequelize.where(
-                        Sequelize.fn('LOWER', Sequelize.col('Tickets.ticket_id')),
-                        'LIKE',
-                        `%${req.query.search.toLowerCase()}%`
-                    )
+                whereClause[Op.or] = [
+                    { title: { [Sequelize.Op.iLike]: `%${req.query.search}%` } },
+                    { ticket_id: { [Sequelize.Op.iLike]: `%${req.query.search}%` } }
                 ];
-            }
-
-            if (req.query.department_id) {
-                whereClause['$CreatedBy.Department.id$'] = req.query.department_id;
             }
 
             if (req.query.created_by) {
@@ -129,6 +118,14 @@ class ticketController {
 
             if (req.query.status) {
                 whereClause.status = req.query.status;
+            }
+
+            if (req.query.category) {
+                whereClause.category = req.query.category;
+            }
+
+            if (req.query.priority) {
+                whereClause.priority = req.query.priority;
             }
 
             let { count, rows: result } = await Tickets.findAndCountAll({

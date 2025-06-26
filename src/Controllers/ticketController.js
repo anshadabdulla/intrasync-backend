@@ -120,7 +120,7 @@ class ticketController {
             }
 
             if (req.query.department_id) {
-                whereClause['$category.department_id$'] = req.query.department_id;
+                whereClause['$CreatedBy.Department.id$'] = req.query.department_id;
             }
 
             if (req.query.created_by) {

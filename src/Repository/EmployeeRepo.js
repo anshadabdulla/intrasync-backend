@@ -28,6 +28,15 @@ class EmployeeRepo {
                 department: employeeData.department || null,
                 designation: employeeData.designation || null,
                 teamlead: employeeData.teamlead || null,
+                prefix: employeeData.prefix || null,
+                father_name: employeeData.father_name || null,
+                nationality: employeeData.nationality || null,
+                probation: employeeData.probation || null,
+                emergency_phone: employeeData.emergency_phone || null,
+                relation: employeeData.relation || null,
+                ctc_salary: employeeData.ctc_salary || null,
+                distance_from_office: employeeData.distance_from_office || null,
+                stay_in: employeeData.stay_in || null,
                 status: 1
             });
 
@@ -65,6 +74,15 @@ class EmployeeRepo {
                 department: updateData.department || null,
                 designation: updateData.designation || null,
                 teamlead: updateData.teamlead || null,
+                prefix: updateData.prefix || null,
+                father_name: updateData.father_name || null,
+                nationality: updateData.nationality || null,
+                probation: updateData.probation || null,
+                emergency_phone: updateData.emergency_phone || null,
+                relation: updateData.relation || null,
+                ctc_salary: updateData.ctc_salary || null,
+                distance_from_office: updateData.distance_from_office || null,
+                stay_in: updateData.stay_in || null,
                 status: updateData.status ?? 1
             });
 

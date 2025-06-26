@@ -75,6 +75,42 @@ const Employees = sequelize.define(
             type: DataTypes.INTEGER,
             allowNull: true
         },
+        prefix: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        father_name: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        nationality: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        probation: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        emergency_phone: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        relation: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        ctc_salary: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        distance_from_office: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        stay_in: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
         status: {
             type: DataTypes.INTEGER,
             allowNull: true

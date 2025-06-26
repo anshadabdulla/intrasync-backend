@@ -2,7 +2,8 @@ const { validationResult } = require('express-validator');
 const UserRepo = require('../repository/UserRepo');
 const EmployeeRepo = require('../repository/EmployeeRepo');
 const { Op, Sequelize } = require('sequelize');
-const { getEmployeeHierarchy } = require('../helper/commonHelper');
+const ExcelJS = require('exceljs');
+const { getEmployeeHierarchy, formatDate } = require('../helper/commonHelper');
 const { Employees, EmployeeDocuments, Users, Designations, Departments } = require('../../models');
 
 class employeeController {
@@ -393,6 +394,103 @@ class employeeController {
             });
         } catch (error) {
             console.error('Error in fetch all employee:', error);
+            res.status(500).json({
+                status: false,
+                msg: 'Internal Server Error'
+            });
+        }
+    }
+
+    async getExcel(req, res) {
+        try {
+            const whereClause = { status: 1 };
+
+            if (req.query.name) {
+                whereClause[Op.or] = [
+                    { full_name: { [Op.iLike]: `%${req.query.name}%` } },
+                    { employee_no: { [Op.iLike]: `%${req.query.name}%` } }
+                ];
+            }
+
+            if (req.query.department) {
+                whereClause.department = req.query.department;
+            }
+
+            if (req.query.designation) {
+                whereClause.designation = req.query.designation;
+            }
+
+            if (req.query.teamlead) {
+                whereClause.teamlead = req.query.teamlead;
+            }
+
+            if (req.query.status) {
+                whereClause.status = req.query.status;
+            }
+
+            const employees = await Employees.findAll({
+                where: whereClause,
+                include: [
+                    {
+                        model: Employees,
+                        as: 'TeamLead',
+                        attributes: ['id', 'name']
+                    },
+                    {
+                        model: Designations,
+                        as: 'Designation',
+                        attributes: ['id', 'name', 'type', 'notice_period']
+                    },
+                    {
+                        model: Departments,
+                        as: 'Department',
+                        attributes: ['id', 'name']
+                    }
+                ],
+                order: [['employee_no', 'ASC']]
+            });
+
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('Employee Data');
+
+            worksheet.columns = [
+                { header: 'Name', key: 'name', width: 25 },
+                { header: 'Employee No', key: 'employee_no', width: 15 },
+                { header: 'Department', key: 'department', width: 20 },
+                { header: 'Designation', key: 'designation', width: 20 },
+                { header: 'Team Lead', key: 'teamlead', width: 25 },
+                { header: 'Email', key: 'email', width: 30 },
+                { header: 'Mobile', key: 'mobile', width: 20 },
+                { header: 'DOJ', key: 'doj', width: 15 },
+                { header: 'Status', key: 'status', width: 10 }
+            ];
+
+            employees.forEach((emp) => {
+                const teamleadName =
+                    emp.TeamLead?.name +
+                    (emp.TeamLead?.mname ? ' ' + emp.TeamLead?.mname : '') +
+                    (emp.TeamLead?.lname ? ' ' + emp.TeamLead?.lname : '');
+
+                worksheet.addRow({
+                    name: emp.full_name,
+                    employee_no: emp.employee_no,
+                    department: emp.Department?.name || '',
+                    designation: emp.Designation?.name || '',
+                    teamlead: teamleadName || '',
+                    email: emp.email || '',
+                    mobile: emp.mobile || '',
+                    doj: emp.doj ? formatDate(emp.doj) : '',
+                    status: emp.status === 1 ? 'Active' : 'Inactive'
+                });
+            });
+
+            res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            res.setHeader('Content-Disposition', 'attachment; filename=employee_data.xlsx');
+
+            await workbook.xlsx.write(res);
+            res.end();
+        } catch (error) {
+            console.error('Error exporting employees to Excel:', error);
             res.status(500).json({
                 status: false,
                 msg: 'Internal Server Error'

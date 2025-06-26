@@ -34,7 +34,17 @@ const getEmployeeHierarchy = async (employeeId) => {
     }
 };
 
+function formatDate(dateStr) {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    if (isNaN(date)) return '';
+    return `${date.getDate().toString().padStart(2, '0')}-${(date.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}-${date.getFullYear()}`;
+}
+
 module.exports = {
     generatePattern,
-    getEmployeeHierarchy
+    getEmployeeHierarchy,
+    formatDate
 };

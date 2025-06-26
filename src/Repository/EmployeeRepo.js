@@ -36,6 +36,7 @@ class EmployeeRepo {
                 relation: employeeData.relation || null,
                 ctc_salary: employeeData.ctc_salary || null,
                 distance_from_office: employeeData.distance_from_office || null,
+                marital_status: employeeData.marital_status || null,
                 stay_in: employeeData.stay_in || null,
                 status: 1
             });
@@ -82,6 +83,7 @@ class EmployeeRepo {
                 relation: updateData.relation || null,
                 ctc_salary: updateData.ctc_salary || null,
                 distance_from_office: updateData.distance_from_office || null,
+                marital_status: updateData.marital_status || null,
                 stay_in: updateData.stay_in || null,
                 status: updateData.status ?? 1
             });

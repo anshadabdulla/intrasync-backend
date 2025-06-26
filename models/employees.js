@@ -111,6 +111,10 @@ const Employees = sequelize.define(
             type: DataTypes.STRING,
             allowNull: true
         },
+        marital_status: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
         status: {
             type: DataTypes.INTEGER,
             allowNull: true

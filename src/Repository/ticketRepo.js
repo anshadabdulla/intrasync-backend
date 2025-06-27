@@ -4,6 +4,7 @@ const TicketDetails = require('../../models/TicketDetails');
 const Settings = require('../../models/Settings');
 const sequelize = require('../database/db');
 const { generatePattern, getTicketStatus } = require('../helper/commonHelper');
+const { Users } = require('../../models');
 
 class TicketRepo {
     async checkDuplication({ title }) {
@@ -67,8 +68,12 @@ class TicketRepo {
 
         try {
             const ticket = await Tickets.findByPk(ticketId, { transaction });
-            if (!ticket) {
-                throw new Error('Ticket not found');
+            const user = await Users.findByPk(userId);
+            const isHR = user.user_type?.toLowerCase() === 'hr';
+
+            if (!isHR && ticket.status !== 0) {
+                await transaction.rollback();
+                return null;
             }
 
             ticket.title = data.title;
@@ -77,7 +82,7 @@ class TicketRepo {
             ticket.assigned_to = data.assigned_to || null;
             ticket.description = data.description || null;
             ticket.file = data.fileUrl || ticket.file;
-            ticket.status = 1;
+            ticket.status = data.status;
 
             await ticket.save({ transaction });
 

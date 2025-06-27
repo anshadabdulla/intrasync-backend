@@ -84,9 +84,9 @@ class ticketController {
                     msg: 'Ticket updated successfully!'
                 });
             } else {
-                return res.status(500).json({
+                return res.status(400).json({
                     status: false,
-                    msg: 'Something went wrong while updating the ticket'
+                    msg: 'Ticket cannot be updated due to status or permissions'
                 });
             }
         } catch (err) {
@@ -378,6 +378,20 @@ class ticketController {
                 status: false,
                 msg: 'Internal Server Error'
             });
+        }
+    }
+
+    async getMyTickets(req, res) {
+        try {
+            const userId = req.user.userId;
+            const tickets = await Tickets.findAll({
+                where: { created_by: userId },
+                order: [['createdAt', 'DESC']]
+            });
+
+            res.json({ status: true, data: tickets });
+        } catch (error) {
+            res.status(500).json({ status: false, msg: 'Something went wrong' });
         }
     }
 }

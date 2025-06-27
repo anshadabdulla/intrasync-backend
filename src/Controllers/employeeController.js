@@ -144,7 +144,7 @@ class employeeController {
                 limit: pageSize,
                 offset: offset,
                 distinct: true,
-                order: [['name', 'ASC']]
+                order: [['employee_no', 'ASC']]
             });
 
             if (count === 0) {

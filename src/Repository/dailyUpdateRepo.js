@@ -11,11 +11,11 @@ class dailyUpdateRepo {
         }
     }
 
-    async create(Data) {
+    async create(Data, userId) {
         try {
             const totalTime = calculateTotalTime(Data.start_time, Data.end_time);
 
-            const employee = await Employees.findOne({ where: { id: Data.created_by } });
+            const employee = await Employees.findOne({ where: { user_id: userId } });
 
             const dailyUpdate = await DailyUpdates.create({
                 title: Data.title,

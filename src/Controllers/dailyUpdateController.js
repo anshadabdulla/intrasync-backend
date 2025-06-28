@@ -24,7 +24,7 @@ class dailyUpdateController {
                     msg: 'Daily update with this title already exists.'
                 });
             }
-            const response = await dailyUpdateRepo.create(req.body);
+            const response = await dailyUpdateRepo.create(req.body, req.user.userId);
 
             if (response) {
                 return res.status(200).json({
@@ -81,8 +81,7 @@ class dailyUpdateController {
 
             return res.status(200).json({
                 status: true,
-                msg: 'Updated successfully!',
-                data: response
+                msg: 'Updated successfully!'
             });
         } catch (err) {
             console.error('Error updating daily update:', err);

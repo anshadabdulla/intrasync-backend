@@ -66,8 +66,6 @@ function calculateTotalTime(startTime, endTime) {
     }
 }
 
-module.exports = { calculateTotalTime };
-
 function getTicketStatus(status) {
     switch (status) {
         case 0:
@@ -89,5 +87,6 @@ module.exports = {
     generatePattern,
     getEmployeeHierarchy,
     formatDate,
-    getTicketStatus
+    getTicketStatus,
+    calculateTotalTime
 };

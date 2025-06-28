@@ -6,6 +6,7 @@ const Tickets = require('./tickets');
 const Ticket_details = require('./ticketDetails');
 const Designations = require('./designations');
 const Departments = require('./departments');
+const DailyUpdates = require('./dailyUpdates');
 
 Employees.belongsTo(Users, {
     foreignKey: 'user_id'
@@ -71,6 +72,30 @@ Departments.hasMany(Employees, {
     as: 'Employees'
 });
 
+DailyUpdates.associate = (models) => {
+    DailyUpdates.belongsTo(models.Employees, {
+        foreignKey: 'created_by',
+        as: 'CreatedEmployee'
+    });
+
+    DailyUpdates.belongsTo(models.Employees, {
+        foreignKey: 'teamlead',
+        as: 'TeamLead'
+    });
+};
+
+Employees.associate = (models) => {
+    Employees.hasMany(models.DailyUpdates, {
+        foreignKey: 'created_by',
+        as: 'CreatedDailyUpdates'
+    });
+
+    Employees.hasMany(models.DailyUpdates, {
+        foreignKey: 'teamlead',
+        as: 'TeamLeadDailyUpdates'
+    });
+};
+
 Employees.addHook('beforeCreate', (employee, options) => {
     employee.full_name = [employee.name, employee.mname, employee.lname].filter(Boolean).join(' ');
 });
@@ -87,7 +112,8 @@ const db = {
     Tickets,
     Ticket_details,
     Designations,
-    Departments
+    Departments,
+    DailyUpdates
 };
 
 module.exports = db;

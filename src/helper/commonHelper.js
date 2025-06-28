@@ -43,6 +43,31 @@ function formatDate(dateStr) {
         .padStart(2, '0')}-${date.getFullYear()}`;
 }
 
+function calculateTotalTime(startTime, endTime) {
+    try {
+        const start = new Date(`1970-01-01T${startTime}`);
+        const end = new Date(`1970-01-01T${endTime}`);
+
+        const diff = (end - start) / 1000;
+
+        const hours = Math.floor(diff / 3600)
+            .toString()
+            .padStart(2, '0');
+        const minutes = Math.floor((diff % 3600) / 60)
+            .toString()
+            .padStart(2, '0');
+        const seconds = Math.floor(diff % 60)
+            .toString()
+            .padStart(2, '0');
+
+        return `${hours}:${minutes}:${seconds}`;
+    } catch (error) {
+        return '00:00:00';
+    }
+}
+
+module.exports = { calculateTotalTime };
+
 function getTicketStatus(status) {
     switch (status) {
         case 0:

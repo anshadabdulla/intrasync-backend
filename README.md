@@ -46,16 +46,18 @@ ticket tracking, and more — helping teams collaborate efficiently and enabling
 ## 📥 Installation
 
 1. Clone the repository
-
+```bash
    git clone https://github.com/your-org/intrasync.git
    cd intrasync
+```
 
 2. Install dependencies
-
+```bash
    npm install
+```
 
 3. Set up environment variables in `.env`
-
+```bash
    DB_HOST=localhost
    DB_USER=youruser
    DB_PASS=yourpass
@@ -63,16 +65,18 @@ ticket tracking, and more — helping teams collaborate efficiently and enabling
    JWT_SECRET=your_jwt_secret
    EMAIL_USER=your_email@example.com
    EMAIL_PASS=your_email_password
+```
 
 4. Run database migrations and seeders
-
+```bash
    npx sequelize-cli db:migrate
    npx sequelize-cli db:seed:all
+```
 
 5. Start the application
-
+```bash
    npm start
-
+```
 ## 📂 Folder Structure
 ```bash
 project-root/

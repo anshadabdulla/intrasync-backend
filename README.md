@@ -108,6 +108,9 @@ npm start
 -   Backend API runs on [`http://localhost:3000`](http://localhost:3000)
 -   Make sure to configure a proxy in your React frontend (`package.json`) to forward API calls:
 
+````json
+"proxy": "http://localhost:3000"
+````
 ---
 
 ## 📂 Folder Structure

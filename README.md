@@ -223,4 +223,3 @@ This is a **private, internal project**. If you're a team member contributing:
 
 This project is **not open-source** and is strictly for internal use.  
 All rights reserved © by the organization.
-' > README.md

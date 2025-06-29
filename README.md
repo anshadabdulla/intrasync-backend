@@ -1,62 +1,65 @@
 # 🏢 Intrasync - Internal Company Portal for HR & Team Operations
 
-Intrasync is an internal enterprise platform designed to centralize and streamline core HR and employee operations. 
-It supports essential workflows like employee management, daily work updates, resignations, event announcements, 
+Intrasync is an internal enterprise platform designed to centralize and streamline core HR and employee operations.
+It supports essential workflows like employee management, daily work updates, resignations, event announcements,
 ticket tracking, and more — helping teams collaborate efficiently and enabling HR to manage operations digitally.
 
 ## 📋 Table of Contents
 
-- [Features](#-features)
-- [Technologies Used](#-technologies-used)
-- [Installation](#-installation)
-- [Usage](#-usage)
-- [Folder Structure](#-folder-structure)
-- [Screenshots](#-screenshots)
-- [Contributing](#-contributing)
-- [License](#-license)
+-   [Features](#-features)
+-   [Technologies Used](#-technologies-used)
+-   [Installation](#-installation)
+-   [Usage](#-usage)
+-   [Folder Structure](#-folder-structure)
+-   [Screenshots](#-screenshots)
+-   [Contributing](#-contributing)
+-   [License](#-license)
 
 ## 🚀 Features
 
-- **User Login & Authentication**
-  - JWT-based session management
-- **Employee Directory**
-  - Add, edit, filter, and manage employee profiles
-- **Daily Update of Work**
-  - Employees log their daily tasks and total hours
-- **Ticket Management System**
-  - Employees can raise, update, and track tickets
-  - HR/Admin can manage ticket status
-- **Resignation Workflow**
-  - Submit and process resignation applications
-- **Event Announcements**
-  - Post and manage internal company events
-- **Role-Based Access Control**
-  - Admin, HR, and Employee roles with permission gating
+-   **User Login & Authentication**
+    -   JWT-based session management
+-   **Employee Directory**
+    -   Add, edit, filter, and manage employee profiles
+-   **Daily Update of Work**
+    -   Employees log their daily tasks and total hours
+-   **Ticket Management System**
+    -   Employees can raise, update, and track tickets
+    -   HR/Admin can manage ticket status
+-   **Resignation Workflow**
+    -   Submit and process resignation applications
+-   **Event Announcements**
+    -   Post and manage internal company events
+-   **Role-Based Access Control**
+    -   Admin, HR, and Employee roles with permission gating
 
 ## 🛠️ Technologies Used
 
-- **Node.js** – Server-side JavaScript runtime
-- **Express.js** – Web framework for routing and middleware
-- **PostgreSQL** – Relational database
-- **Sequelize** – ORM for schema & data modeling
-- **JWT** – Secure token-based authentication
-- **Handlebars** – Email templating engine
-- **JavaScript (ES6+)** – Core language for logic and scripting
+-   **Node.js** – Server-side JavaScript runtime
+-   **Express.js** – Web framework for routing and middleware
+-   **PostgreSQL** – Relational database
+-   **Sequelize** – ORM for schema & data modeling
+-   **JWT** – Secure token-based authentication
+-   **Handlebars** – Email templating engine
+-   **JavaScript (ES6+)** – Core language for logic and scripting
 
 ## 📥 Installation
 
 1. Clone the repository
+
 ```bash
    git clone https://github.com/your-org/intrasync.git
    cd intrasync
 ```
 
 2. Install dependencies
+
 ```bash
    npm install
 ```
 
 3. Set up environment variables in `.env`
+
 ```bash
    DB_HOST=localhost
    DB_USER=youruser
@@ -68,16 +71,20 @@ ticket tracking, and more — helping teams collaborate efficiently and enabling
 ```
 
 4. Run database migrations and seeders
+
 ```bash
    npx sequelize-cli db:migrate
    npx sequelize-cli db:seed:all
 ```
 
 5. Start the application
+
 ```bash
    npm start
 ```
+
 ## 📂 Folder Structure
+
 ```bash
 project-root/
 ├── app.js                            # Entry point of the application
@@ -138,57 +145,72 @@ project-root/
 │       └── ticketRouter.js
 
 ```
+
 ## 📸 Screenshots
 
-### Intrasync login
-./public/screenshots/intrasyncLogin.png
+### Intrasync Login
+
+![Intrasync Login](./public/screenshots/intrasyncLogin.png)
 
 ### Intrasync Forgot Password
-./public/screenshots/intrasyncForgotPassword.png
 
-###  Intrasync home page 
-./public/screenshots/intrasyncHomePage.png
+![Intrasync Forgot Password](./public/screenshots/intrasyncForgotPassword.png)
 
-### Intrasync employee Directory 
-./public/screenshots/intrasyncEmployeeDirectory.png
+### Intrasync Home Page
 
-### Intrasync add employee
-./public/screenshots/IntrasyncAddEmployee.png
+![Intrasync Home Page](./public/screenshots/intrasyncHomePage.png)
 
-### Intrasync update employee
-./public/screenshots/IntrasyncUpdateEmployee.png
+### Intrasync Employee Directory
 
-### Intrasync Ticket list 
-./public/screenshots/intrasyncTicketList.png
+![Intrasync Employee Directory](./public/screenshots/intrasyncEmployeeDirectory.png)
 
-### Intrasync update ticket
-./public/screenshots/IntrasyncUpdateTicket.png
+### Intrasync Add Employee
 
-### Intrasync daily updates 
-./public/screenshots/intrasyncDailyUpdates.png
+![Intrasync Add Employee](./public/screenshots/IntrasyncAddEmployee.png)
 
-### Intrasync daily update create
-./public/screenshots/intrasyncDailyUpdateCreate.png
+### Intrasync Update Employee
 
-### Intrasync daily update edit
-./public/screenshots/intrasyncDailyUpdateEdit.png
+![Intrasync Update Employee](./public/screenshots/IntrasyncUpdateEmployee.png)
 
-### intrasync reset password
-./public/screenshots/intrasyncResetPassword.png
+### Intrasync Ticket List
 
-### Intrasync forgot password mail templet
-./public/screenshots/IntrasyncForgotPasswordTemplet.png
+![Intrasync Ticket List](./public/screenshots/intrasyncTicketList.png)
 
-### Intrasync reset password mail templet
-./public/screenshots/IntrasyncResetPasswordSuccessfullMail.png
+### Intrasync Update Ticket
+
+![Intrasync Update Ticket](./public/screenshots/IntrasyncUpdateTicket.png)
+
+### Intrasync Daily Updates
+
+![Intrasync Daily Updates](./public/screenshots/intrasyncDailyUpdates.png)
+
+### Intrasync Daily Update Create
+
+![Intrasync Daily Update Create](./public/screenshots/intrasyncDailyUpdateCreate.png)
+
+### Intrasync Daily Update Edit
+
+![Intrasync Daily Update Edit](./public/screenshots/intrasyncDailyUpdateEdit.png)
+
+### Intrasync Reset Password
+
+![Intrasync Reset Password](./public/screenshots/intrasyncResetPassword.png)
+
+### Intrasync Forgot Password Mail Template
+
+![Intrasync Forgot Password Mail Template](./public/screenshots/IntrasyncForgotPasswordTemplet.png)
+
+### Intrasync Reset Password Successful Mail
+
+![Intrasync Reset Password Successful Mail](./public/screenshots/IntrasyncResetPasswordSuccessfullMail.png)
 
 6. Contributing
 
 This is a private, internal project. If you're a team member contributing to this platform:
 
-- Follow the existing code style
-- Create a feature branch
-- Submit a pull request with a clear description
+-   Follow the existing code style
+-   Create a feature branch
+-   Submit a pull request with a clear description
 
 7. License
 

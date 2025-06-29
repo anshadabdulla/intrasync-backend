@@ -49,3 +49,61 @@ ticket tracking, and more — helping teams collaborate efficiently and enabling
 ```bash
 git clone https://github.com/your-org/intrasync.git
 cd intrasync
+
+2. **Install dependencies**
+
+```bash
+npm install
+
+3. **Set up environment variables**
+
+```bash
+DB_HOST=localhost
+DB_USER=youruser
+DB_PASS=yourpass
+DB_NAME=intrasync
+JWT_SECRET=your_jwt_secret
+EMAIL_USER=your_email@example.com
+EMAIL_PASS=your_email_password
+
+4. **Run migrations and seeders**
+
+```bash
+npx sequelize-cli db:migrate
+npx sequelize-cli db:seed:all
+
+5. **Start the application**
+
+```bash
+npm start
+
+6. **Folder Structure**
+
+intrasync/
+├── app.js                          # Main application entry point
+├── config/                         # DB config and environment setup
+│   └── config.js
+├── migrations/                     # Sequelize migration scripts
+│   ├── 20250612102401-create-users.js
+│   ├── 20250612102551-create-employees.js
+│   ├── ... (more migration files)
+├── models/                         # Sequelize models
+│   ├── users.js
+│   ├── employees.js
+│   ├── ... (more models)
+├── seeders/                        # Initial data population
+│   └── 20250626133037-seed-settings.js
+├── src/
+│   ├── controllers/                # Business logic handlers
+│   ├── database/                   # Sequelize DB connection
+│   ├── emails/templates/           # Handlebars email templates
+│   ├── helper/                     # Common utilities
+│   ├── middleware/                 # Auth middleware
+│   ├── repository/                 # Data access layer
+│   └── router/                     # Express route modules
+├── .env                            # Environment configuration
+├── .gitignore                      # Git ignored files
+├── package.json                    # Project metadata & dependencies
+└── README.md                       # Project documentation
+
+

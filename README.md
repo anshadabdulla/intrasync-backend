@@ -1,218 +1,207 @@
-# 🏢 Intrasync - Internal Company Portal for HR & Team Operations
+echo '# 🏢 Intrasync - Internal Company Portal for HR & Team Operations
 
-Intrasync is an internal enterprise platform designed to centralize and streamline core HR and employee operations.
-It supports essential workflows like employee management, daily work updates, resignations, event announcements,
-ticket tracking, and more — helping teams collaborate efficiently and enabling HR to manage operations digitally.
+**Intrasync** is a full-stack internal enterprise platform designed to centralize and streamline core HR and employee operations.  
+It supports workflows like employee management, daily work updates, resignations, event announcements, ticket tracking, and more — helping teams collaborate efficiently and enabling HR to manage operations digitally.
+
+---
 
 ## 📋 Table of Contents
 
--   [Features](#-features)
--   [Technologies Used](#-technologies-used)
--   [Installation](#-installation)
--   [Usage](#-usage)
--   [Folder Structure](#-folder-structure)
--   [Screenshots](#-screenshots)
--   [Contributing](#-contributing)
--   [License](#-license)
+- [🚀 Features](#-features)  
+- [🛠️ Technologies Used](#-technologies-used)  
+- [📥 Installation](#-installation)  
+- [▶️ Usage](#-usage)  
+- [📂 Folder Structure](#-folder-structure)  
+- [📸 Screenshots](#-screenshots)  
+- [🤝 Contributing](#-contributing)  
+- [📜 License](#-license)
+
+---
 
 ## 🚀 Features
 
--   **User Login & Authentication**
-    -   JWT-based session management
--   **Employee Directory**
-    -   Add, edit, filter, and manage employee profiles
--   **Daily Update of Work**
-    -   Employees log their daily tasks and total hours
--   **Ticket Management System**
-    -   Employees can raise, update, and track tickets
-    -   HR/Admin can manage ticket status
--   **Resignation Workflow**
-    -   Submit and process resignation applications
--   **Event Announcements**
-    -   Post and manage internal company events
--   **Role-Based Access Control**
-    -   Admin, HR, and Employee roles with permission gating
+- **User Login & Authentication**  
+  - JWT-based session management  
+- **Employee Directory**  
+  - Add, edit, filter, and manage employee profiles  
+- **Daily Update of Work**  
+  - Employees log their daily tasks and total hours  
+- **Ticket Management System**  
+  - Employees can raise, update, and track tickets  
+  - HR/Admin can manage ticket status  
+- **Resignation Workflow**  
+  - Submit and process resignation applications  
+- **Event Announcements**  
+  - Post and manage internal company events  
+- **Role-Based Access Control**  
+  - Admin, HR, and Employee roles with permission-based access  
+
+---
 
 ## 🛠️ Technologies Used
 
--   **Node.js** – Server-side JavaScript runtime
--   **Express.js** – Web framework for routing and middleware
--   **PostgreSQL** – Relational database
--   **Sequelize** – ORM for schema & data modeling
--   **JWT** – Secure token-based authentication
--   **Handlebars** – Email templating engine
--   **JavaScript (ES6+)** – Core language for logic and scripting
+### 🔧 Backend
+- **Node.js** – Server-side JavaScript runtime  
+- **Express.js** – Web framework for APIs and routing  
+- **PostgreSQL** – Relational database  
+- **Sequelize** – ORM for schema & data modeling  
+- **JWT** – Secure token-based authentication  
+- **Handlebars (HBS)** – Email templating engine  
+
+### 💻 Frontend
+- **React.js** – Modern component-based frontend framework  
+- **React Router** – Routing for single-page application  
+- **Axios** – API communication  
+- **CSS** – UI styling (component & global)  
+
+---
 
 ## 📥 Installation
 
-1. Clone the repository
+### 1. Clone the repository
 
-```bash
-   git clone https://github.com/your-org/intrasync.git
-   cd intrasync
-```
+\`\`\`bash
+git clone https://github.com/your-org/intrasync.git
+cd intrasync
+\`\`\`
 
-2. Install dependencies
+### 2. Install backend dependencies
 
-```bash
-   npm install
-```
+\`\`\`bash
+npm install
+\`\`\`
 
-3. Set up environment variables in `.env`
+### 3. Configure environment variables
 
-```bash
-   DB_HOST=localhost
-   DB_USER=youruser
-   DB_PASS=yourpass
-   DB_NAME=intrasync
-   JWT_SECRET=your_jwt_secret
-   EMAIL_USER=your_email@example.com
-   EMAIL_PASS=your_email_password
-```
+Create a \`.env\` file in the root and add:
 
-4. Run database migrations and seeders
+\`\`\`env
+DB_HOST=localhost
+DB_USER=youruser
+DB_PASS=yourpass
+DB_NAME=intrasync
+JWT_SECRET=your_jwt_secret
+EMAIL_USER=your_email@example.com
+EMAIL_PASS=your_email_password
+\`\`\`
 
-```bash
-   npx sequelize-cli db:migrate
-   npx sequelize-cli db:seed:all
-```
+### 4. Run DB migrations & seeders
 
-5. Start the application
+\`\`\`bash
+npx sequelize-cli db:migrate
+npx sequelize-cli db:seed:all
+\`\`\`
 
-```bash
-   npm start
-```
+### 5. Start backend server
+
+\`\`\`bash
+npm start
+\`\`\`
+
+---
+
+## ▶️ Usage
+
+- React frontend runs separately in \`client/\` or your frontend directory  
+- Backend serves APIs at \`http://localhost:5000/api\`  
+- Configure proxy in React if needed
+
+---
 
 ## 📂 Folder Structure
 
-```bash
+\`\`\`bash
 project-root/
-├── app.js                            # Entry point of the application
+├── app.js                           # Entry point
 ├── config/
-│   └── config.js                     # Database and environment configuration
-├── migrations/                       # Sequelize migration files for schema setup
-│   ├── 20250612102401-create-users.js
-│   ├── 20250612102551-create-employees.js
-│   ├── 20250620041612-create-employeeDocuments.js
-│   ├── 20250621060742-create-tickets.js
-│   ├── 20250621060748-create-ticketDetails.js
-│   ├── 20250621153105-create-settings.js
-│   ├── 20250624112335-create-departments.js
-│   ├── 20250624112401-create-designations.js
-│   └── 20250628073836-create-dailyUpdates.js
-├── models/                           # Sequelize models
-│   ├── dailyUpdates.js
-│   ├── departments.js
-│   ├── designations.js
-│   ├── employeeDocuments.js
-│   ├── employees.js
-│   ├── index.js                      # Sequelize initialization
-│   ├── settings.js
-│   ├── ticketDetails.js
-│   ├── tickets.js
-│   └── users.js
-├── seeders/                          # Sequelize seed files for initial data
-│   └── 20250626133037-seed-settings.js
+│   └── config.js                    # DB & env config
+├── migrations/                      # Sequelize migration files
+├── models/                          # Sequelize models
+├── seeders/                         # DB seed files
 ├── src/
-│   ├── controllers/                  # Route controllers for handling business logic
-│   │   ├── dailyUpdateController.js
-│   │   ├── employeeController.js
-│   │   ├── loginController.js
-│   │   ├── masterDataController.js
-│   │   └── ticketController.js
-│   ├── database/
-│   │   └── db.js                     # Database connection instance
-│   ├── emails/
-│   │   └── templates/                # Handlebars email templates
-│   │       ├── forgot-email.handlebars
-│   │       └── reset-password-email.handlebars
-│   ├── helper/
-│   │   └── commonHelper.js          # Common utility functions
-│   ├── middleware/
-│   │   └── auth.js                  # Authentication middleware
-│   ├── repository/                  # Repository pattern for DB interactions
-│   │   ├── dailyUpdateRepo.js
-│   │   ├── EmailRepo.js
-│   │   ├── EmployeeRepo.js
-│   │   ├── MasterDataRepo.js
-│   │   ├── ticketRepo.js
-│   │   └── UserRepo.js
-│   └── router/                      # Express route definitions
-│       ├── dailyUpdateRouter.js
-│       ├── employeeRouter.js
-│       ├── loginRouter.js
-│       ├── masterDataRouter.js
-│       └── ticketRouter.js
+│   ├── controllers/                 # Business logic
+│   ├── database/                    # DB connection
+│   ├── emails/templates/           # Handlebars templates
+│   ├── helper/                      # Utility functions
+│   ├── middleware/                  # Auth middleware
+│   ├── repository/                  # Data access layer
+│   └── router/                      # Express routes
+\`\`\`
 
-```
+React frontend (example):
+
+\`\`\`bash
+client/
+├── src/
+│   ├── api/
+│   ├── assets/
+│   ├── components/
+│   ├── pages/
+│   ├── routes/AppRoutes.jsx
+│   └── index.js
+\`\`\`
+
+---
 
 ## 📸 Screenshots
 
-### Intrasync Login
-
+### 🔐 Intrasync Login  
 ![Intrasync Login](./public/screenshots/intrasyncLogin.png)
 
-### Intrasync Forgot Password
-
+### 🔑 Forgot Password  
 ![Intrasync Forgot Password](./public/screenshots/intrasyncForgotPassword.png)
 
-### Intrasync Home Page
-
+### 🏠 Home Page  
 ![Intrasync Home Page](./public/screenshots/intrasyncHomePage.png)
 
-### Intrasync Employee Directory
-
+### 👥 Employee Directory  
 ![Intrasync Employee Directory](./public/screenshots/intrasyncEmployeeDirectory.png)
 
-### Intrasync Add Employee
-
+### ➕ Add Employee  
 ![Intrasync Add Employee](./public/screenshots/IntrasyncAddEmployee.png)
 
-### Intrasync Update Employee
-
+### 🖊️ Update Employee  
 ![Intrasync Update Employee](./public/screenshots/IntrasyncUpdateEmployee.png)
 
-### Intrasync Ticket List
-
+### 🎫 Ticket List  
 ![Intrasync Ticket List](./public/screenshots/intrasyncTicketList.png)
 
-### Intrasync Update Ticket
-
+### ✏️ Update Ticket  
 ![Intrasync Update Ticket](./public/screenshots/IntrasyncUpdateTicket.png)
 
-### Intrasync Daily Updates
-
+### 📅 Daily Updates  
 ![Intrasync Daily Updates](./public/screenshots/intrasyncDailyUpdates.png)
 
-### Intrasync Daily Update Create
-
+### 🆕 Create Daily Update  
 ![Intrasync Daily Update Create](./public/screenshots/intrasyncDailyUpdateCreate.png)
 
-### Intrasync Daily Update Edit
-
+### 🔁 Edit Daily Update  
 ![Intrasync Daily Update Edit](./public/screenshots/intrasyncDailyUpdateEdit.png)
 
-### Intrasync Reset Password
-
+### 🔐 Reset Password  
 ![Intrasync Reset Password](./public/screenshots/intrasyncResetPassword.png)
 
-### Intrasync Forgot Password Mail Template
-
+### 📧 Forgot Password Email Template  
 ![Intrasync Forgot Password Mail Template](./public/screenshots/IntrasyncForgotPasswordTemplet.png)
 
-### Intrasync Reset Password Successful Mail
-
+### ✅ Reset Password Success Email  
 ![Intrasync Reset Password Successful Mail](./public/screenshots/IntrasyncResetPasswordSuccessfullMail.png)
 
-6. Contributing
+---
 
-This is a private, internal project. If you're a team member contributing to this platform:
+## 🤝 Contributing
 
--   Follow the existing code style
--   Create a feature branch
--   Submit a pull request with a clear description
+This is a **private, internal project**. If you're a team member contributing:
 
-7. License
+- Follow existing folder and code structure  
+- Use meaningful commit messages  
+- Create feature branches  
+- Submit pull requests with clear descriptions  
 
-This project is for internal use only and is not open-source.  
-All rights reserved by the organization.
+---
+
+## 📜 License
+
+This project is **not open-source** and is strictly for internal use.  
+All rights reserved © by the organization.
+' > README.md

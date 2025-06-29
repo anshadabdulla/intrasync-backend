@@ -110,6 +110,44 @@ Follow the existing code style
 Create a feature branch
 Submit a pull request with a clear description
 
+## 📸 Screenshots
+
+### login page
+![login page](./public/screenshots/login.png)
+
+### signup page
+![signup page](./public/screenshots/signup.png)
+
+### admin login
+![admin login](./public/screenshots/adminlogin.png)
+
+### home page
+![home page](./public/screenshots/homepage.png)
+
+### about section
+![about section](./public/screenshots/aboutsection.png)
+
+### trick or treat 
+![ltrick or treat](./public/screenshots/Treat.png)
+
+### Ticket booking 
+![Ticket booking](./public/screenshots/Ticketbooking.png)
+
+### Ticket booking status
+![Ticket booking status](./public/screenshots/Ticketstatus.png)
+
+### support request
+![support request](./public/screenshots/supportrequest.png)
+
+### news letter section
+![news letter section](./public/screenshots/newsletter.png)
+
+### admin dashboard ticket status update 
+![admin dashboard ticket status update ](./public/screenshots/admindashboard1.png)
+
+### admin dashboard support request update 
+![admin dashboard support request update ](./public/screenshots/admindashboard2.png)
+
 
 ⚖️ License
 

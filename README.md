@@ -73,7 +73,7 @@ npx sequelize-cli db:seed:all
 
 npm start
 
-6. Folder Structure**
+6. 📂 Folder Structure
 
 intrasync/
 ├── app.js                          # Main application entry point
@@ -101,5 +101,19 @@ intrasync/
 ├── .gitignore                      # Git ignored files
 ├── package.json                    # Project metadata & dependencies
 └── README.md                       # Project documentation
+
+🧑‍💻 Contributing
+
+This is a private, internal project. If you're a team member contributing to this platform:
+
+Follow the existing code style
+Create a feature branch
+Submit a pull request with a clear description
+
+
+⚖️ License
+
+This project is for internal use only and is not open-source. All rights reserved by the organization.
+
 
 

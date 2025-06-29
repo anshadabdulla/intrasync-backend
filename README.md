@@ -75,11 +75,11 @@ ticket tracking, and more — helping teams collaborate efficiently and enabling
 
 ## 📂 Folder Structure
 ```bash
-intrasync/
-├── app.js                          # Main application entry point
-├── config/                         # DB config and environment setup
-│   └── config.js
-├── migrations/                     # Sequelize migration scripts
+project-root/
+├── app.js                            # Entry point of the application
+├── config/
+│   └── config.js                     # Database and environment configuration
+├── migrations/                       # Sequelize migration files for schema setup
 │   ├── 20250612102401-create-users.js
 │   ├── 20250612102551-create-employees.js
 │   ├── 20250620041612-create-employeeDocuments.js
@@ -89,53 +89,50 @@ intrasync/
 │   ├── 20250624112335-create-departments.js
 │   ├── 20250624112401-create-designations.js
 │   └── 20250628073836-create-dailyUpdates.js
-├── models/                         # Sequelize models
-│   ├── users.js
-│   ├── employees.js
+├── models/                           # Sequelize models
 │   ├── dailyUpdates.js
 │   ├── departments.js
 │   ├── designations.js
 │   ├── employeeDocuments.js
-│   ├── index.js
+│   ├── employees.js
+│   ├── index.js                      # Sequelize initialization
 │   ├── settings.js
 │   ├── ticketDetails.js
-│   └── tickets.js
-├── seeders/
+│   ├── tickets.js
+│   └── users.js
+├── seeders/                          # Sequelize seed files for initial data
 │   └── 20250626133037-seed-settings.js
 ├── src/
-│   ├── controllers/
+│   ├── controllers/                  # Route controllers for handling business logic
 │   │   ├── dailyUpdateController.js
 │   │   ├── employeeController.js
 │   │   ├── loginController.js
 │   │   ├── masterDataController.js
 │   │   └── ticketController.js
 │   ├── database/
-│   │   └── db.js
+│   │   └── db.js                     # Database connection instance
 │   ├── emails/
-│   │   └── templates/
+│   │   └── templates/                # Handlebars email templates
 │   │       ├── forgot-email.handlebars
 │   │       └── reset-password-email.handlebars
 │   ├── helper/
-│   │   └── commonHelper.js
+│   │   └── commonHelper.js          # Common utility functions
 │   ├── middleware/
-│   │   └── auth.js
-│   ├── repository/
+│   │   └── auth.js                  # Authentication middleware
+│   ├── repository/                  # Repository pattern for DB interactions
 │   │   ├── dailyUpdateRepo.js
 │   │   ├── EmailRepo.js
 │   │   ├── EmployeeRepo.js
 │   │   ├── MasterDataRepo.js
 │   │   ├── ticketRepo.js
 │   │   └── UserRepo.js
-│   └── router/
+│   └── router/                      # Express route definitions
 │       ├── dailyUpdateRouter.js
 │       ├── employeeRouter.js
 │       ├── loginRouter.js
 │       ├── masterDataRouter.js
 │       └── ticketRouter.js
-├── .env
-├── .gitignore
-├── package.json
-└── README.md
+
 ```
 ## 📸 Screenshots
 

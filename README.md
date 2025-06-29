@@ -1,115 +1,51 @@
-# 🏢 Intrasync
+# 🏢 Intrasync - Internal Company Portal for HR & Team Operations
 
-Intrasync is an internal company platform designed to streamline employee and HR activities within the organization.
-It acts as a central hub for all internal operations, such as user management, resignation handling, ticket tracking, 
-event announcements, and more.
+Intrasync is an internal enterprise platform designed to centralize and streamline core HR and employee operations. 
+It supports essential workflows like employee management, daily work updates, resignations, event announcements, 
+ticket tracking, and more — helping teams collaborate efficiently and enabling HR to manage operations digitally.
 
-────────────────────────────
-🚀 Features
-────────────────────────────
-👤 User Login & Authentication  
-🧑‍💼 Employee Management  
-📅 Event Announcements  
-🎫 Ticket Raising & Tracking  
-📤 Resignation Submissions  
-📝 Daily Update of Work  
-🔒 Role-Based Access Control (HR/Admin/Employee)  
+## 📋 Table of Contents
 
-# 📁 Folder Structure
-────────────────────────────
-project-root/
-├── app.js                            # Main entry point
-├── config/
-│   └── config.js                     # Sequelize and environment config
-├── migrations/                       # Sequelize schema migration files
-│   ├── 20250612102401-create-users.js
-│   ├── 20250612102551-create-employees.js
-│   ├── 20250620041612-create-employeeDocuments.js
-│   ├── 20250621060742-create-tickets.js
-│   ├── 20250621060748-create-ticketDetails.js
-│   ├── 20250621153105-create-settings.js
-│   ├── 20250624112335-create-departments.js
-│   ├── 20250624112401-create-designations.js
-│   └── 20250628073836-create-dailyUpdates.js
-├── models/
-│   ├── dailyUpdates.js
-│   ├── departments.js
-│   ├── designations.js
-│   ├── employeeDocuments.js
-│   ├── employees.js
-│   ├── index.js
-│   ├── settings.js
-│   ├── ticketDetails.js
-│   ├── tickets.js
-│   └── users.js
-├── seeders/
-│   └── 20250626133037-seed-settings.js
-├── src/
-│   ├── controllers/
-│   │   ├── dailyUpdateController.js
-│   │   ├── employeeController.js
-│   │   ├── loginController.js
-│   │   ├── masterDataController.js
-│   │   └── ticketController.js
-│   ├── database/
-│   │   └── db.js
-│   ├── emails/
-│   │   └── templates/
-│   │       ├── forgot-email.handlebars
-│   │       └── reset-password-email.handlebars
-│   ├── helper/
-│   │   └── commonHelper.js
-│   ├── middleware/
-│   │   └── auth.js
-│   ├── repository/
-│   │   ├── dailyUpdateRepo.js
-│   │   ├── EmailRepo.js
-│   │   ├── EmployeeRepo.js
-│   │   ├── MasterDataRepo.js
-│   │   ├── ticketRepo.js
-│   │   └── UserRepo.js
-│   └── router/
-│       ├── dailyUpdateRouter.js
-│       ├── employeeRouter.js
-│       ├── loginRouter.js
-│       ├── masterDataRouter.js
-│       └── ticketRouter.js
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Folder Structure](#folder-structure)
+- [Contributing](#contributing)
+- [License](#license)
 
-────────────────────────────
-📦 Tech Stack
-────────────────────────────
-Backend  : Node.js, Express.js  
-Database : PostgreSQL (Sequelize ORM)  
-Email    : Handlebars templates  
-Auth     : JWT-based authentication  
+## 🚀 Features
 
-────────────────────────────
-⚙️ Setup Instructions
-────────────────────────────
-# 1. Clone the repository
+- **User Login & Authentication**
+  - JWT-based session management
+- **Employee Directory**
+  - Add, edit, filter, and manage employee profiles
+- **Daily Update of Work**
+  - Employees log their daily tasks and total hours
+- **Ticket Management System**
+  - Employees can raise, update, and track tickets
+  - HR/Admin can manage ticket status
+- **Resignation Workflow**
+  - Submit and process resignation applications
+- **Event Announcements**
+  - Post and manage internal company events
+- **Role-Based Access Control**
+  - Admin, HR, and Employee roles with permission gating
+
+## 🛠️ Technologies Used
+
+- **Node.js**: Server-side runtime
+- **Express.js**: Web framework for routing and middleware
+- **PostgreSQL**: Relational database
+- **Sequelize**: ORM for database modeling and migration
+- **JWT**: Authentication and session management
+- **Handlebars**: Email template engine
+- **JavaScript (ES6+)**: Application logic and backend scripting
+
+## 📥 Installation
+
+1. **Clone the repository**
+
+```bash
 git clone https://github.com/your-org/intrasync.git
 cd intrasync
-
-# 2. Install dependencies
-npm install
-
-# 3. Configure environment
-# Create a .env file with DB credentials, JWT secret, etc.
-
-# 4. Run DB migrations and seeders
-npx sequelize-cli db:migrate
-npx sequelize-cli db:seed:all
-
-# 5. Start the server
-npm start
-
-────────────────────────────
-🧑‍💻 Contribution
-────────────────────────────
-This platform is internal to our company.
-If you're a team member, please follow code standards and submit a pull request.
-
-────────────────────────────
-📬 Contact
-────────────────────────────
-For issues or support, contact the dev team or HR representative.

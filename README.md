@@ -110,7 +110,7 @@ npm start
 
 ````json
 "proxy": "http://localhost:3000"
-
+````
 ---
 
 ## 📂 Folder Structure

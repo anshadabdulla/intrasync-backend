@@ -1,4 +1,4 @@
-'# 🏢 Intrasync - Internal Company Portal for HR & Team Operations
+## 🏢 Intrasync - Internal Company Portal for HR & Team Operations
 
 **Intrasync** is a full-stack internal enterprise platform designed to centralize and streamline core HR and employee operations.  
 It supports workflows like employee management, daily work updates, resignations, event announcements, ticket tracking, and more — helping teams collaborate efficiently and enabling HR to manage operations digitally.

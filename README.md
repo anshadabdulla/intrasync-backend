@@ -74,7 +74,7 @@ ticket tracking, and more — helping teams collaborate efficiently and enabling
    npm start
 
 ## 📂 Folder Structure
-
+```bash
 intrasync/
 ├── app.js                          # Main application entry point
 ├── config/                         # DB config and environment setup
@@ -136,7 +136,7 @@ intrasync/
 ├── .gitignore
 ├── package.json
 └── README.md
-
+```
 ## 📸 Screenshots
 
 ### 🔐 Login Page

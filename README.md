@@ -140,43 +140,49 @@ project-root/
 ```
 ## 📸 Screenshots
 
-### 🔐 Login Page
-./public/screenshots/login.png
+### Intrasync login
+./public/screenshots/intrasyncLogin.png
 
-### 📝 Signup Page
-./public/screenshots/signup.png
+### Intrasync Forgot Password
+./public/screenshots/intrasyncForgotPassword.png
 
-### 👑 Admin Login
-./public/screenshots/adminlogin.png
+###  Intrasync home page 
+./public/screenshots/intrasyncHomePage.png
 
-### 🏠 Home Page
-./public/screenshots/homepage.png
+### Intrasync employee Directory 
+./public/screenshots/intrasyncEmployeeDirectory.png
 
-### 📖 About Section
-./public/screenshots/aboutsection.png
+### Intrasync add employee
+./public/screenshots/IntrasyncAddEmployee.png
 
-### 🍬 Trick or Treat
-./public/screenshots/Treat.png
+### Intrasync update employee
+./public/screenshots/IntrasyncUpdateEmployee.png
 
-### 🎫 Ticket Booking
-./public/screenshots/Ticketbooking.png
+### Intrasync Ticket list 
+./public/screenshots/intrasyncTicketList.png
 
-### ✅ Ticket Booking Status
-./public/screenshots/Ticketstatus.png
+### Intrasync update ticket
+./public/screenshots/IntrasyncUpdateTicket.png
 
-### 💬 Support Request
-./public/screenshots/supportrequest.png
+### Intrasync daily updates 
+./public/screenshots/intrasyncDailyUpdates.png
 
-### 📰 Newsletter Section
-./public/screenshots/newsletter.png
+### Intrasync daily update create
+./public/screenshots/intrasyncDailyUpdateCreate.png
 
-### 🛠️ Admin Dashboard – Ticket Status Update
-./public/screenshots/admindashboard1.png
+### Intrasync daily update edit
+./public/screenshots/intrasyncDailyUpdateEdit.png
 
-### 🛠️ Admin Dashboard – Support Request Update
-./public/screenshots/admindashboard2.png
+### intrasync reset password
+./public/screenshots/intrasyncResetPassword.png
 
-## 🧑‍💻 Contributing
+### Intrasync forgot password mail templet
+./public/screenshots/IntrasyncForgotPasswordTemplet.png
+
+### Intrasync reset password mail templet
+./public/screenshots/IntrasyncResetPasswordSuccessfullMail.png
+
+6. Contributing
 
 This is a private, internal project. If you're a team member contributing to this platform:
 
@@ -184,7 +190,7 @@ This is a private, internal project. If you're a team member contributing to thi
 - Create a feature branch
 - Submit a pull request with a clear description
 
-## ⚖️ License
+7. License
 
 This project is for internal use only and is not open-source.  
 All rights reserved by the organization.

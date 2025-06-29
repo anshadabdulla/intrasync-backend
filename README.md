@@ -6,13 +6,14 @@ ticket tracking, and more — helping teams collaborate efficiently and enabling
 
 ## 📋 Table of Contents
 
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Folder Structure](#folder-structure)
-- [Contributing](#contributing)
-- [License](#license)
+- [Features](#-features)
+- [Technologies Used](#-technologies-used)
+- [Installation](#-installation)
+- [Usage](#-usage)
+- [Folder Structure](#-folder-structure)
+- [Screenshots](#-screenshots)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ## 🚀 Features
 
@@ -34,46 +35,45 @@ ticket tracking, and more — helping teams collaborate efficiently and enabling
 
 ## 🛠️ Technologies Used
 
-- **Node.js**: Server-side runtime
-- **Express.js**: Web framework for routing and middleware
-- **PostgreSQL**: Relational database
-- **Sequelize**: ORM for database modeling and migration
-- **JWT**: Authentication and session management
-- **Handlebars**: Email template engine
-- **JavaScript (ES6+)**: Application logic and backend scripting
+- **Node.js** – Server-side JavaScript runtime
+- **Express.js** – Web framework for routing and middleware
+- **PostgreSQL** – Relational database
+- **Sequelize** – ORM for schema & data modeling
+- **JWT** – Secure token-based authentication
+- **Handlebars** – Email templating engine
+- **JavaScript (ES6+)** – Core language for logic and scripting
 
 ## 📥 Installation
 
-1. **Clone the repository**
+1. Clone the repository
 
-```bash
-git clone https://github.com/your-org/intrasync.git
-cd intrasync
+   git clone https://github.com/your-org/intrasync.git
+   cd intrasync
 
 2. Install dependencies
 
-npm install
+   npm install
 
-3. Set up environment variables
+3. Set up environment variables in `.env`
 
-DB_HOST=localhost
-DB_USER=youruser
-DB_PASS=yourpass
-DB_NAME=intrasync
-JWT_SECRET=your_jwt_secret
-EMAIL_USER=your_email@example.com
-EMAIL_PASS=your_email_password
+   DB_HOST=localhost
+   DB_USER=youruser
+   DB_PASS=yourpass
+   DB_NAME=intrasync
+   JWT_SECRET=your_jwt_secret
+   EMAIL_USER=your_email@example.com
+   EMAIL_PASS=your_email_password
 
-4. Run migrations and seeders
+4. Run database migrations and seeders
 
-npx sequelize-cli db:migrate
-npx sequelize-cli db:seed:all
+   npx sequelize-cli db:migrate
+   npx sequelize-cli db:seed:all
 
 5. Start the application
 
-npm start
+   npm start
 
-6. 📂 Folder Structure
+## 📂 Folder Structure
 
 intrasync/
 ├── app.js                          # Main application entry point
@@ -82,76 +82,108 @@ intrasync/
 ├── migrations/                     # Sequelize migration scripts
 │   ├── 20250612102401-create-users.js
 │   ├── 20250612102551-create-employees.js
-│   ├── ... (more migration files)
+│   ├── 20250620041612-create-employeeDocuments.js
+│   ├── 20250621060742-create-tickets.js
+│   ├── 20250621060748-create-ticketDetails.js
+│   ├── 20250621153105-create-settings.js
+│   ├── 20250624112335-create-departments.js
+│   ├── 20250624112401-create-designations.js
+│   └── 20250628073836-create-dailyUpdates.js
 ├── models/                         # Sequelize models
 │   ├── users.js
 │   ├── employees.js
-│   ├── ... (more models)
-├── seeders/                        # Initial data population
+│   ├── dailyUpdates.js
+│   ├── departments.js
+│   ├── designations.js
+│   ├── employeeDocuments.js
+│   ├── index.js
+│   ├── settings.js
+│   ├── ticketDetails.js
+│   └── tickets.js
+├── seeders/
 │   └── 20250626133037-seed-settings.js
 ├── src/
-│   ├── controllers/                # Business logic handlers
-│   ├── database/                   # Sequelize DB connection
-│   ├── emails/templates/           # Handlebars email templates
-│   ├── helper/                     # Common utilities
-│   ├── middleware/                 # Auth middleware
-│   ├── repository/                 # Data access layer
-│   └── router/                     # Express route modules
-├── .env                            # Environment configuration
-├── .gitignore                      # Git ignored files
-├── package.json                    # Project metadata & dependencies
-└── README.md                       # Project documentation
-
-🧑‍💻 Contributing
-
-This is a private, internal project. If you're a team member contributing to this platform:
-
-Follow the existing code style
-Create a feature branch
-Submit a pull request with a clear description
+│   ├── controllers/
+│   │   ├── dailyUpdateController.js
+│   │   ├── employeeController.js
+│   │   ├── loginController.js
+│   │   ├── masterDataController.js
+│   │   └── ticketController.js
+│   ├── database/
+│   │   └── db.js
+│   ├── emails/
+│   │   └── templates/
+│   │       ├── forgot-email.handlebars
+│   │       └── reset-password-email.handlebars
+│   ├── helper/
+│   │   └── commonHelper.js
+│   ├── middleware/
+│   │   └── auth.js
+│   ├── repository/
+│   │   ├── dailyUpdateRepo.js
+│   │   ├── EmailRepo.js
+│   │   ├── EmployeeRepo.js
+│   │   ├── MasterDataRepo.js
+│   │   ├── ticketRepo.js
+│   │   └── UserRepo.js
+│   └── router/
+│       ├── dailyUpdateRouter.js
+│       ├── employeeRouter.js
+│       ├── loginRouter.js
+│       ├── masterDataRouter.js
+│       └── ticketRouter.js
+├── .env
+├── .gitignore
+├── package.json
+└── README.md
 
 ## 📸 Screenshots
 
-### login page
-![login page](./public/screenshots/login.png)
+### 🔐 Login Page
+./public/screenshots/login.png
 
-### signup page
-![signup page](./public/screenshots/signup.png)
+### 📝 Signup Page
+./public/screenshots/signup.png
 
-### admin login
-![admin login](./public/screenshots/adminlogin.png)
+### 👑 Admin Login
+./public/screenshots/adminlogin.png
 
-### home page
-![home page](./public/screenshots/homepage.png)
+### 🏠 Home Page
+./public/screenshots/homepage.png
 
-### about section
-![about section](./public/screenshots/aboutsection.png)
+### 📖 About Section
+./public/screenshots/aboutsection.png
 
-### trick or treat 
-![ltrick or treat](./public/screenshots/Treat.png)
+### 🍬 Trick or Treat
+./public/screenshots/Treat.png
 
-### Ticket booking 
-![Ticket booking](./public/screenshots/Ticketbooking.png)
+### 🎫 Ticket Booking
+./public/screenshots/Ticketbooking.png
 
-### Ticket booking status
-![Ticket booking status](./public/screenshots/Ticketstatus.png)
+### ✅ Ticket Booking Status
+./public/screenshots/Ticketstatus.png
 
-### support request
-![support request](./public/screenshots/supportrequest.png)
+### 💬 Support Request
+./public/screenshots/supportrequest.png
 
-### news letter section
-![news letter section](./public/screenshots/newsletter.png)
+### 📰 Newsletter Section
+./public/screenshots/newsletter.png
 
-### admin dashboard ticket status update 
-![admin dashboard ticket status update ](./public/screenshots/admindashboard1.png)
+### 🛠️ Admin Dashboard – Ticket Status Update
+./public/screenshots/admindashboard1.png
 
-### admin dashboard support request update 
-![admin dashboard support request update ](./public/screenshots/admindashboard2.png)
+### 🛠️ Admin Dashboard – Support Request Update
+./public/screenshots/admindashboard2.png
 
+## 🧑‍💻 Contributing
 
-⚖️ License
+This is a private, internal project. If you're a team member contributing to this platform:
 
-This project is for internal use only and is not open-source. All rights reserved by the organization.
+- Follow the existing code style
+- Create a feature branch
+- Submit a pull request with a clear description
 
+## ⚖️ License
 
-
+This project is for internal use only and is not open-source.  
+All rights reserved by the organization.
